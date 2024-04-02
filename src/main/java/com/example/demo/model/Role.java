@@ -12,5 +12,5 @@ public class Role {
     @Column(unique = true)
     private String name;
 
-    // Getters and setters
+
 }

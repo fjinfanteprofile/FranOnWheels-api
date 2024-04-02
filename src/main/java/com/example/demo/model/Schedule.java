@@ -15,36 +15,4 @@ public class Schedule {
     private String starttime;
 
     private String endtime;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getDayOfWeek() {
-        return dayOfWeek;
-    }
-
-    public void setDayOfWeek(String dayOfWeek) {
-        this.dayOfWeek = dayOfWeek;
-    }
-
-    public String getStarttime() {
-        return starttime;
-    }
-
-    public void setStarttime(String starttime) {
-        this.starttime = starttime;
-    }
-
-    public String getEndtime() {
-        return endtime;
-    }
-
-    public void setEndtime(String endtime) {
-        this.endtime = endtime;
-    }
 }
