@@ -9,16 +9,4 @@ import java.util.List;
 @Service
 public class VehicleTypeService {
 
-    private final VehicleTypeRepository vehicleTypeRepository;
-
-    @Autowired
-    public VehicleTypeService(VehicleTypeRepository vehicleTypeRepository) {
-        this.vehicleTypeRepository = vehicleTypeRepository;
-    }
-
-    public List<VehicleType> getAllVehicleTypes() {
-        return vehicleTypeRepository.findAll();
-    }
-
-    // Add more methods as needed
 }

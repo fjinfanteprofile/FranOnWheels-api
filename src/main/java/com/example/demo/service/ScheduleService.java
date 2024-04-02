@@ -8,17 +8,4 @@ import java.util.List;
 
 @Service
 public class ScheduleService {
-
-    private final ScheduleRepository scheduleRepository;
-
-    @Autowired
-    public ScheduleService(ScheduleRepository scheduleRepository) {
-        this.scheduleRepository = scheduleRepository;
-    }
-
-    public List<Schedule> getAllSchedules() {
-        return scheduleRepository.findAll();
-    }
-
-    // Add more methods as needed
 }

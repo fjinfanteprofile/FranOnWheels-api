@@ -9,16 +9,4 @@ import java.util.List;
 @Service
 public class ClassesService {
 
-    private final ClassesRepository classesRepository;
-
-    @Autowired
-    public ClassesService(ClassesRepository classesRepository) {
-        this.classesRepository = classesRepository;
-    }
-
-    public List<Classes> getAllClasses() {
-        return classesRepository.findAll();
-    }
-
-    // Add more methods as needed
 }
