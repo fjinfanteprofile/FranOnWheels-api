@@ -1,10 +1,16 @@
-package com.example.demo.model;
+package com.example.demo.model.domain;
 
 import jakarta.persistence.*;
 
 import java.util.Date;
+import lombok.*;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Table(name = "classes")
 public class Classes {
     @Id

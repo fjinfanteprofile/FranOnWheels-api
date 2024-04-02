@@ -1,11 +1,16 @@
-package com.example.demo.model;
+package com.example.demo.model.domain;
 
 import jakarta.persistence.*;
-
+import lombok.*;
 
 @Entity
-@Table(name = "speciality")
-public class Speciality {
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Table(name = "roles")
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
