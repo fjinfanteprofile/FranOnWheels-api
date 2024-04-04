@@ -9,6 +9,9 @@ import com.example.demo.model.domain.Speciality;
 import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.SpecialityRepository;
 
+/**
+ * Component responsible for loading initial data into the application.
+ */
 @Component
 public class DataLoader {
 
@@ -16,22 +19,30 @@ public class DataLoader {
     private final RoleRepository roleRepository;
     private final SpecialityRepository specialityRepository;
 
+
+//      Constructor for DataLoader class.
+//      Initializes the repositories required for data loading.
+
     public DataLoader(UserRepository userRepository, RoleRepository roleRepository, SpecialityRepository specialityRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.specialityRepository = specialityRepository;
     }
 
+    /**
+     * Method annotated with @PostConstruct to be executed after the bean is initialized.
+     * It initializes the data loading process by creating roles, specialities, and inserting users if the repository is empty.
+     */
     @PostConstruct
     public void init() {
-        // Create roles and specialities if not exist
+        // Create roles and specialities if they do not exist
         createRoles();
         createSpecialities();
 
         // Load one of the roles and specialities created
         Role roleUser = roleRepository.findByName("ROLE_USER");
         Speciality specialityA1 = specialityRepository.findByName("A1");
-        //Loaded other role and speciality for the second user
+        // Load another role and speciality for the second user
         Role roleAdmin = roleRepository.findByName("ROLE_ADMIN");
         Speciality specialityA2 = specialityRepository.findByName("A2");
 
@@ -41,21 +52,31 @@ public class DataLoader {
         }
     }
 
+
+//      Creates and saves roles if they do not exist in the database.
+
     private void createRoles() {
         // Check if roles already exist in the database
         if (roleRepository.count() == 0) {
-            roleRepository.save(new Role("ROLE_USER"));
-            roleRepository.save(new Role("ROLE_ADMIN"));
+            roleRepository.save(new Role("ROLE_USER")); // Save ROLE_USER
+            roleRepository.save(new Role("ROLE_ADMIN")); // Save ROLE_ADMIN
         }
     }
 
+//
+//      Creates and saves specialities if they do not exist in the database.
+//
     private void createSpecialities() {
         // Check if specialities already exist in the database
         if (specialityRepository.count() == 0) {
-            specialityRepository.save(new Speciality("A1"));
-            specialityRepository.save(new Speciality("A2"));
+            specialityRepository.save(new Speciality("A1")); // Save Speciality A1
+            specialityRepository.save(new Speciality("A2")); // Save Speciality A2
         }
     }
+
+
+//      Inserts users into the database with specified roles and specialities.
+//      Two users are inserted, one with ROLE_USER and Speciality A1, and another with ROLE_ADMIN and Speciality A2.
 
     private void insertUsers(Role roleUser, Role roleAdmin, Speciality specialityA1, Speciality specialityA2) {
         // Create and save users
@@ -66,11 +87,11 @@ public class DataLoader {
                 .email("john@example.com")
                 .address("123 Street")
                 .phoneNumber("123456789")
-                .role(roleUser)
-                .speciality(specialityA1)
+                .role(roleUser) // Assign ROLE_USER
+                .speciality(specialityA1) // Assign Speciality A1
                 .build();
 
-        userRepository.save(user1);
+        userRepository.save(user1); // Save user1
 
         User user2 = User.builder()
                 .name("Antonio")
@@ -79,9 +100,10 @@ public class DataLoader {
                 .email("fran@example.com")
                 .address("1222 Street")
                 .phoneNumber("1234567222")
-                .role(roleAdmin)
-                .speciality(specialityA2)
+                .role(roleAdmin) // Assign ROLE_ADMIN
+                .speciality(specialityA2) // Assign Speciality A2
                 .build();
-        userRepository.save(user2);
+
+        userRepository.save(user2); // Save user2
     }
 }
