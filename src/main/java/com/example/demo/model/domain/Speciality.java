@@ -19,5 +19,8 @@ public class Speciality {
     @Column(unique = true)
     private String name;
 
+    public Speciality(String name) {
+        this.name = name;
+    }
 
 }
