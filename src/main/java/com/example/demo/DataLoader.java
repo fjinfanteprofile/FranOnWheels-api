@@ -50,6 +50,9 @@ public class DataLoader {
         if (userRepository.count() == 0) {
             insertUsers(roleUser, roleAdmin, specialityA1, specialityA2);
         }
+        // Retrieve and print users
+        printUsers();
+        deleteUser();
     }
 
 
@@ -106,4 +109,26 @@ public class DataLoader {
 
         userRepository.save(user2); // Save user2
     }
+    // Method to print users from the database
+    private void printUsers() {
+        System.out.println("Users in the database:");
+        userRepository.findAll().forEach(user -> {
+            String userName = user.getName();
+            String roleName = user.getRole().getName();
+            String specialityName = user.getSpeciality().getName();
+            System.out.println("Name: " + userName + ", Role: " + roleName + ", Speciality: " + specialityName);
+        });
+    }
+
+    //
+    private void deleteUser() {
+        long userId = 1L; // ID of the user to delete
+        if (userRepository.existsById(userId)) {
+            userRepository.deleteById(userId);
+            System.out.println("Deleted user with ID " + userId);
+        } else {
+            System.out.println("User with ID " + userId + " not found");
+        }
+    }
+
 }
