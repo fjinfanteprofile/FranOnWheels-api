@@ -2,20 +2,17 @@ package com.example.demo.service;
 
 import com.example.demo.model.domain.Speciality;
 import com.example.demo.repository.SpecialityRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class SpecialityService {
 
     private final SpecialityRepository specialityRepository;
 
-    @Autowired
-    public SpecialityService(SpecialityRepository specialityRepository) {
-        this.specialityRepository = specialityRepository;
-    }
 
     // Create operation
     public Speciality createSpeciality(Speciality speciality) {

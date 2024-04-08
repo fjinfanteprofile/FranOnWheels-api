@@ -1,20 +1,17 @@
 package com.example.demo.service;
 import com.example.demo.model.domain.Vehicle;
 import com.example.demo.repository.VehicleRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class VehicleService {
 
     private final VehicleRepository vehicleRepository;
 
-    @Autowired
-    public VehicleService(VehicleRepository vehicleRepository) {
-        this.vehicleRepository = vehicleRepository;
-    }
 
     // Create operation
     public Vehicle createVehicle(Vehicle vehicle) {

@@ -2,20 +2,16 @@ package com.example.demo.service;
 
 import com.example.demo.model.domain.Bookings;
 import com.example.demo.repository.BookingsRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class BookingsService {
 
     private final BookingsRepository bookingsRepository;
-
-    @Autowired
-    public BookingsService(BookingsRepository bookingsRepository) {
-        this.bookingsRepository = bookingsRepository;
-    }
 
     // Create operation
     public Bookings createBooking(Bookings booking) {
