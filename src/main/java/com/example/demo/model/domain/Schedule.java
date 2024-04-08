@@ -2,6 +2,9 @@ package com.example.demo.model.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.time.LocalDate;
+
 @Entity
 @Getter
 @Setter
@@ -20,4 +23,6 @@ public class Schedule {
     private String starttime;
 
     private String endtime;
+
+    private LocalDate date;
 }
