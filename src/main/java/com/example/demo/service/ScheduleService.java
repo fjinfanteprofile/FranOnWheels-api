@@ -2,20 +2,17 @@ package com.example.demo.service;
 
 import com.example.demo.model.domain.Schedule;
 import com.example.demo.repository.ScheduleRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
 
-    @Autowired
-    public ScheduleService(ScheduleRepository scheduleRepository) {
-        this.scheduleRepository = scheduleRepository;
-    }
 
     // Create operation
     public Schedule createSchedule(Schedule schedule) {
