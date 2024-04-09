@@ -1,7 +1,21 @@
 package com.example.demo;
 
-import com.example.demo.model.domain.*;
-import com.example.demo.repository.*;
+import com.example.demo.model.domain.Bookings;
+import com.example.demo.model.domain.Classes;
+import com.example.demo.model.domain.Role;
+import com.example.demo.model.domain.Schedule;
+import com.example.demo.model.domain.Speciality;
+import com.example.demo.model.domain.User;
+import com.example.demo.model.domain.Vehicle;
+import com.example.demo.model.domain.VehicleType;
+import com.example.demo.repository.BookingsRepository;
+import com.example.demo.repository.ClassesRepository;
+import com.example.demo.repository.RoleRepository;
+import com.example.demo.repository.ScheduleRepository;
+import com.example.demo.repository.SpecialityRepository;
+import com.example.demo.repository.UserRepository;
+import com.example.demo.repository.VehicleRepository;
+import com.example.demo.repository.VehicleTypeRepository;
 import org.springframework.stereotype.Component;
 import jakarta.annotation.PostConstruct;
 
