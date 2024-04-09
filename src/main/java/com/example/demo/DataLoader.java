@@ -65,8 +65,8 @@ public class DataLoader {
     private void createRoles() {
         // Check if roles already exist in the database
         if (roleRepository.count() == 0) {
-            roleRepository.save(new Role("ROLE_USER")); // Save ROLE_USER
-            roleRepository.save(new Role("ROLE_ADMIN")); // Save ROLE_ADMIN
+            roleRepository.save(new Role("USER")); // Save ROLE_USER
+            roleRepository.save(new Role("ADMIN")); // Save ROLE_ADMIN
         }
     }
 

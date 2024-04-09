@@ -39,7 +39,7 @@ public class UserService {
     }
 
     public List<User> getAdminUsers() {
-        return userRepository.findAdminUsers();
+        return userRepository.findByRoleName("ADMIN");
     }
 
 
