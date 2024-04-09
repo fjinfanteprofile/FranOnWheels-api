@@ -153,8 +153,7 @@ private void createSpecialities() {
         }
     }
     private void createVehicles() {
-        // Implement logic to create and save vehicles
-        // For demonstration, let's assume we're creating 5 vehicles
+
         for (int i = 0; i < 5; i++) {
             Vehicle vehicle = Vehicle.builder()
                     .type(generateRandomVehicleType())
