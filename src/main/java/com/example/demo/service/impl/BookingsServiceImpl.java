@@ -2,6 +2,7 @@ package com.example.demo.service.impl;
 
 import com.example.demo.model.domain.Bookings;
 import com.example.demo.repository.BookingsRepository;
+import com.example.demo.service.BookingsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class BookingsServiceImpl {
+public class BookingsServiceImpl implements BookingsService {
 
     private final BookingsRepository bookingsRepository;
 
