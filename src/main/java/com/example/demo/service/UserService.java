@@ -1,40 +1,21 @@
 package com.example.demo.service;
 
 import com.example.demo.model.domain.User;
-import com.example.demo.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
-@Service
-@RequiredArgsConstructor
-public class UserService {
+public interface UserService {
 
-    private  UserRepository userRepository;
+    User createUser(User user);
 
+    List<User> getAllUsers();
 
-    // Create operation
-    public User createUser(User user) {
-        return userRepository.save(user);
-    }
+    Optional<User> getUserById(Long id);
 
-    // Read operations
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
-    }
+    User updateUser(User user);
 
-    public Optional<User> getUserById(Long id) {
-        return userRepository.findById(id);
-    }
+    void deleteUserById(Long id);
 
-    // Update operation
-    public User updateUser(User user) {
-        return userRepository.save(user);
-    }
-
-    // Delete operation
-    public void deleteUserById(Long id) {
-        userRepository.deleteById(id);
-    }
+    List<User> getAdminUsers();
 }

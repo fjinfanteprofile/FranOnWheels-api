@@ -1,40 +1,19 @@
 package com.example.demo.service;
 
 import com.example.demo.model.domain.Schedule;
-import com.example.demo.repository.ScheduleRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
-@Service
-@RequiredArgsConstructor
-public class ScheduleService {
+public interface ScheduleService {
 
-    private final ScheduleRepository scheduleRepository;
+    Schedule createSchedule(Schedule schedule);
 
+    List<Schedule> getAllSchedules();
 
-    // Create operation
-    public Schedule createSchedule(Schedule schedule) {
-        return scheduleRepository.save(schedule);
-    }
+    Optional<Schedule> getScheduleById(Long id);
 
-    // Read operations
-    public List<Schedule> getAllSchedules() {
-        return scheduleRepository.findAll();
-    }
+    Schedule updateSchedule(Schedule schedule);
 
-    public Optional<Schedule> getScheduleById(Long id) {
-        return scheduleRepository.findById(id);
-    }
-
-    // Update operation
-    public Schedule updateSchedule(Schedule schedule) {
-        return scheduleRepository.save(schedule);
-    }
-
-    // Delete operation
-    public void deleteScheduleById(Long id) {
-        scheduleRepository.deleteById(id);
-    }
+    void deleteScheduleById(Long id);
 }

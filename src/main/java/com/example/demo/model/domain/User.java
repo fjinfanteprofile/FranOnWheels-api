@@ -1,7 +1,21 @@
 package com.example.demo.model.domain;
 
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Column;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.Builder;
+
+import java.util.List;
 
 
 @Entity
@@ -30,6 +44,8 @@ public class User {
 
     private String email;
 
+    private Integer age;
+
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
@@ -37,5 +53,8 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "speciality_id")
     private Speciality speciality;
+
+    @OneToMany(mappedBy = "user")
+    private List<Bookings> bookings;
 
 }

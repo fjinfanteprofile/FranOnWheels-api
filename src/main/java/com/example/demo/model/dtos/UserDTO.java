@@ -15,6 +15,6 @@ public class UserDTO {
     private String phoneNumber;
     private String address;
     private String email;
-    private com.example.demo.model.dto.RoleDTO role;
-    private com.example.demo.model.dto.SpecialityDTO speciality;
+    private com.example.demo.model.dtos.RoleDTO role;
+    private com.example.demo.model.dtos.SpecialityDTO speciality;
 }

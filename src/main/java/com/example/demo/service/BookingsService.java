@@ -1,39 +1,19 @@
 package com.example.demo.service;
 
 import com.example.demo.model.domain.Bookings;
-import com.example.demo.repository.BookingsRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
-@Service
-@RequiredArgsConstructor
-public class BookingsService {
+public interface BookingsService {
 
-    private final BookingsRepository bookingsRepository;
+    Bookings createBooking(Bookings booking);
 
-    // Create operation
-    public Bookings createBooking(Bookings booking) {
-        return bookingsRepository.save(booking);
-    }
+    List<Bookings> getAllBookings();
 
-    // Read operations
-    public List<Bookings> getAllBookings() {
-        return bookingsRepository.findAll();
-    }
+    Optional<Bookings> getBookingById(Long id);
 
-    public Optional<Bookings> getBookingById(Long id) {
-        return bookingsRepository.findById(id);
-    }
+    Bookings updateBooking(Bookings booking);
 
-    // Update operation
-    public Bookings updateBooking(Bookings booking) {
-        return bookingsRepository.save(booking);
-    }
-
-    // Delete operation
-    public void deleteBookingById(Long id) {
-        bookingsRepository.deleteById(id);
-    }
+    void deleteBookingById(Long id);
 }

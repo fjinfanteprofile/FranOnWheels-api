@@ -1,6 +1,5 @@
 package com.example.demo.model.dtos;
 
-import com.example.demo.model.dtos.VehicleTypeDTO;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
