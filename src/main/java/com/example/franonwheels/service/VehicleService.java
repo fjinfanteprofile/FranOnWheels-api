@@ -1,19 +1,20 @@
 package com.example.franonwheels.service;
 
 import com.example.franonwheels.model.domain.Vehicle;
+import com.example.franonwheels.model.dtos.VehicleDTO;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface VehicleService {
 
-    Vehicle createVehicle(Vehicle vehicle);
+    VehicleDTO createVehicle(VehicleDTO vehicleDTO);
 
-    List<Vehicle> getAllVehicles();
+    List<VehicleDTO> getAllVehicles();
 
-    Optional<Vehicle> getVehicleById(Long id);
+    Optional<VehicleDTO> getVehicleById(Long id);
 
-    Vehicle updateVehicle(Vehicle vehicle);
+    VehicleDTO updateVehicle(VehicleDTO vehicleDTO);
 
     void deleteVehicleById(Long id);
 }

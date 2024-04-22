@@ -1,19 +1,19 @@
 package com.example.franonwheels.service;
 
-import com.example.franonwheels.model.domain.Speciality;
+import com.example.franonwheels.model.dtos.SpecialityDTO;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface SpecialityService {
 
-    Speciality createSpeciality(Speciality speciality);
+    SpecialityDTO createSpeciality(SpecialityDTO specialityDTO);
 
-    List<Speciality> getAllSpecialities();
+    List<SpecialityDTO> getAllSpecialities();
 
-    Optional<Speciality> getSpecialityById(Long id);
+    Optional<SpecialityDTO> getSpecialityById(Long id);
 
-    Speciality updateSpeciality(Speciality speciality);
+    SpecialityDTO updateSpeciality(SpecialityDTO specialityDTO);
 
     void deleteSpecialityById(Long id);
 }

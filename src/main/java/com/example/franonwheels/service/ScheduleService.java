@@ -1,19 +1,20 @@
 package com.example.franonwheels.service;
 
 import com.example.franonwheels.model.domain.Schedule;
+import com.example.franonwheels.model.dtos.ScheduleDTO;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface ScheduleService {
 
-    Schedule createSchedule(Schedule schedule);
+    ScheduleDTO createSchedule(ScheduleDTO scheduleDTO);
 
-    List<Schedule> getAllSchedules();
+    List<ScheduleDTO> getAllSchedules();
 
-    Optional<Schedule> getScheduleById(Long id);
+    Optional<ScheduleDTO> getScheduleById(Long id);
 
-    Schedule updateSchedule(Schedule schedule);
+    ScheduleDTO updateSchedule(ScheduleDTO scheduleDTO);
 
     void deleteScheduleById(Long id);
 }
