@@ -3,7 +3,6 @@ package com.example.franonwheels.api.repository;
 import com.example.franonwheels.Util.UserMapper;
 import com.example.franonwheels.model.domain.Role;
 import com.example.franonwheels.model.domain.User;
-import com.example.franonwheels.model.dtos.UserDTO;
 import com.example.franonwheels.repository.UserRepository;
 import com.example.franonwheels.service.impl.UserServiceImpl;
 import org.junit.jupiter.api.BeforeAll;
@@ -40,8 +39,9 @@ public class UserServiceUnitTest {
 
 
     // Define a list of users
-    private final List<UserDTO> userList = Arrays.asList(
-            UserDTO.builder()
+    private final List<User> userList = Arrays.asList(
+            User.builder()
+                    .id(1L)
                     .name("Fernandonwheels")
                     .lastName("LastNamee")
                     .dni("1234A")
@@ -50,7 +50,8 @@ public class UserServiceUnitTest {
                     .role(admin)
                     .phoneNumber("33333")
                     .build(),
-            UserDTO.builder()
+            User.builder()
+                    .id(2L)
                     .name("a")
                     .lastName("a")
                     .dni("1234Aa")
@@ -59,7 +60,8 @@ public class UserServiceUnitTest {
                     .role(user)
                     .phoneNumber("1")
                     .build(),
-            UserDTO.builder()
+            User.builder()
+                    .id(3L)
                     .name("b")
                     .lastName("b")
                     .dni("1234Ab")
@@ -90,7 +92,7 @@ public class UserServiceUnitTest {
         //define the behavior of userRepositoryMock.save() method
         Mockito.when(this.userRepositoryMock.save(Mockito.any(User.class))).thenReturn(userList.get(0)); //used when taking arguments (Mokito.any)
         // Call the method being tested
-        this.userServiceImplMock.createUser(userList.get(0));
+        this.userServiceImplMock.createUser(UserMapper.userConvertToDTO(userList.get(0)));
         // Verify that userRepositoryMock.save() was called exactly once with any User object
         Mockito.verify(this.userRepositoryMock, Mockito.times(1))
                 .save(Mockito.any(User.class));
@@ -123,7 +125,7 @@ public class UserServiceUnitTest {
 
         Mockito.when(this.userRepositoryMock.save(Mockito.any(User.class))).thenReturn(userList.get(0));
 
-        this.userServiceImplMock.updateUser(userList.get(0));
+        this.userServiceImplMock.updateUser(UserMapper.userConvertToDTO(userList.get(0)));
 
         Mockito.verify(this.userRepositoryMock, Mockito.times(1)).save(Mockito.any(User.class));
 
@@ -144,11 +146,9 @@ public class UserServiceUnitTest {
     @Test
     public void whenGetAdminUsers_thenReturnListOfAdmins() {
 
-        List <UserDTO> adminList = userList.stream()
+        List <User> adminList = userList.stream()
                 .filter(user -> user.getRole().getName().equals("ADMIN"))
                 .collect(Collectors.toList()); //terminal operation that collects the filtered elements of the stream into a new list.
-
-        List <User> users = ;
 
         Mockito.when(this.userRepositoryMock.findByRoleName("ADMIN")).thenReturn(adminList);
 
