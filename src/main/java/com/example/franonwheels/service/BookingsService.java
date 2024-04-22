@@ -1,19 +1,20 @@
 package com.example.franonwheels.service;
 
 import com.example.franonwheels.model.domain.Bookings;
+import com.example.franonwheels.model.dtos.BookingsDTO;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface BookingsService {
 
-    Bookings createBooking(Bookings booking);
+    BookingsDTO createBooking(BookingsDTO booking);
 
-    List<Bookings> getAllBookings();
+    List<BookingsDTO> getAllBookings();
 
-    Optional<Bookings> getBookingById(Long id);
+    Optional<BookingsDTO> getBookingById(Long id);
 
-    Bookings updateBooking(Bookings booking);
+    BookingsDTO updateBooking(BookingsDTO booking);
 
     void deleteBookingById(Long id);
 }

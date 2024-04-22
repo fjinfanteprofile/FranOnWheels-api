@@ -14,6 +14,7 @@ public class UserDTO {
     private String phoneNumber;
     private String address;
     private String email;
+    private String password;
     private com.example.franonwheels.model.dtos.RoleDTO role;
     private com.example.franonwheels.model.dtos.SpecialityDTO speciality;
 }

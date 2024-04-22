@@ -1,19 +1,20 @@
 package com.example.franonwheels.service;
 
 import com.example.franonwheels.model.domain.Role;
+import com.example.franonwheels.model.dtos.RoleDTO;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface RoleService {
 
-    Role createRole(Role role);
+    RoleDTO createRole(RoleDTO roleDTO);
 
-    List<Role> getAllRoles();
+    List<RoleDTO> getAllRoles();
 
-    Optional<Role> getRoleById(Long id);
+    Optional<RoleDTO> getRoleById(Long id);
 
-    Role updateRole(Role role);
+    RoleDTO updateRole(RoleDTO roleDTO);
 
     void deleteRoleById(Long id);
 }

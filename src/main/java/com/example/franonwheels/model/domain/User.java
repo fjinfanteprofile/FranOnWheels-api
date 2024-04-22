@@ -46,6 +46,8 @@ public class User {
 
     private Integer age;
 
+    private String password;
+
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;

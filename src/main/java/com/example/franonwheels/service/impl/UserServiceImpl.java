@@ -1,11 +1,14 @@
 package com.example.franonwheels.service.impl;
 
+import com.example.franonwheels.Util.UserMapper;
 import com.example.franonwheels.model.domain.User;
+import com.example.franonwheels.model.dtos.UserDTO;
 import com.example.franonwheels.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -15,31 +18,41 @@ public class UserServiceImpl {
 
 
     // Create operation
-    public User createUser(User user) {
-        return userRepository.save(user);
+    public UserDTO createUser(UserDTO userDTO) {
+
+        return UserMapper.userConvertToDTO(this.userRepository.save(UserMapper.userConvertToEntity(userDTO)));
     }
 
     // Read operations
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserDTO> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        return users.stream()
+                    .map(UserMapper::userConvertToDTO)
+                    .collect(Collectors.toList());
     }
 
-    public Optional<User> getUserById(Long id) {
-        return userRepository.findById(id);
+    public Optional<UserDTO> getUserById(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        return user.map(UserMapper::userConvertToDTO);
     }
 
-    // Update operation
-    public User updateUser(User user) {
-        return userRepository.save(user);
+    public UserDTO updateUser(UserDTO userDTO) {
+
+        return UserMapper.userConvertToDTO(this.userRepository.save(UserMapper.userConvertToEntity(userDTO)));
     }
+
 
     // Delete operation
     public void deleteUserById(Long id) {
         userRepository.deleteById(id);
     }
 
-    public List<User> getAdminUsers() {
-        return userRepository.findByRoleName("ADMIN");
+    public List<UserDTO> getAdminUsers() {
+        List<User> adminUsers = userRepository.findByRoleName("ADMIN");
+
+        return adminUsers.stream()
+                .map(UserMapper::userConvertToDTO)
+                .collect(Collectors.toList());
     }
 
 

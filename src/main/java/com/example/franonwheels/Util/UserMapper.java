@@ -24,6 +24,7 @@ public class UserMapper {
                 .phoneNumber(user.getPhoneNumber())
                 .address(user.getAddress())
                 .email(user.getEmail())
+                .password(user.getPassword())
                 .role(roleConvertToDTO(user.getRole()))
                 .speciality(specialityConvertToDTO(user.getSpeciality()))
                 .build();
@@ -41,6 +42,7 @@ public class UserMapper {
                 .address(usersDTO.getAddress())
                 .phoneNumber(usersDTO.getPhoneNumber())
                 .dni(usersDTO.getDni())
+                .password(usersDTO.getPassword())
                 .role(roleConvertToEntity(usersDTO.getRole()))
                 .speciality(specialityConvertToEntity(usersDTO.getSpeciality()))
                 .build();
