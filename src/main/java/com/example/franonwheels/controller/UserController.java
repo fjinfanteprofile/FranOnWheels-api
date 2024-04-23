@@ -62,4 +62,13 @@ public class UserController {
         return new ResponseEntity<>(adminUsers, HttpStatus.OK);
     }
 
+    @GetMapping("/showbyname")
+    public ResponseEntity<List<UserDTO>> getUserByUsername(@RequestParam String name) {
+        List<UserDTO> user = userServiceImpl.getUserByUsername(name);
+        if (!user.isEmpty()) {
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
 }

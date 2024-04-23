@@ -114,4 +114,13 @@ public class UserServiceImpl {
                 .map(UserMapper::userConvertToDTO)
                 .collect(Collectors.toList());
     }
+
+    public List<UserDTO> getUserByUsername(String name) {
+
+        List<User> user = userRepository.findByNameIgnoreCaseContaining(name);
+        return user.stream().
+                map(UserMapper::userConvertToDTO)
+               .collect(Collectors.toList());
+
+    }
 }

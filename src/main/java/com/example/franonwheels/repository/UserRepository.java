@@ -38,7 +38,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<Bookings> findBookingsByUserDNIAndNameLike(@Param("dni") String dni, @Param("name") String name);
 
     // Finds users whose first name contains a specified pattern (case-sensitive)
-    List<User> findByNameLike(@Param("Name") String Name);
+    List<User> findByNameIgnoreCaseContaining(@Param("Name") String Name);
 
     // Finds users whose age is less than the specified age
     List<User> findByAgeLessThan(@Param("Age") Integer Age);
