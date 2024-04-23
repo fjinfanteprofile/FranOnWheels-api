@@ -108,7 +108,7 @@ public class UserServiceImpl {
         }
     }
     public List<UserDTO> getAdminUsers() {
-        List<User> adminUsers = userRepository.findByRoleName("ADMIN");
+        List<User> adminUsers = userRepository.findByRoleNameIgnoreCaseContaining("ADMIN");
 
         return adminUsers.stream()
                 .map(UserMapper::userConvertToDTO)
@@ -121,6 +121,31 @@ public class UserServiceImpl {
         return user.stream().
                 map(UserMapper::userConvertToDTO)
                .collect(Collectors.toList());
+
+    }
+
+    public List<UserDTO> getUsersByRoleName(String roleName) {
+        List<User> users = userRepository.findByRoleNameIgnoreCaseContaining(roleName);
+        return users.stream().
+                map(UserMapper::userConvertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<UserDTO> getUsersByAgeGreaterThan(int age) {
+
+        List<User> users = userRepository.findByAgeGreaterThan(age);
+        return users.stream().
+                map(UserMapper::userConvertToDTO)
+                .collect(Collectors.toList());
+
+    }
+
+    public List<UserDTO> findByAgeLessThan(int age) {
+
+        List<User> users = userRepository.findByAgeLessThan(age);
+        return users.stream().
+                map(UserMapper::userConvertToDTO)
+                .collect(Collectors.toList());
 
     }
 }

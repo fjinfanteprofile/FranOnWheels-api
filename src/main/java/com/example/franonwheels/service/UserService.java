@@ -19,4 +19,12 @@ public interface UserService {
     void deleteUserById(Long id);
 
     List<UserDTO> getAdminUsers();
+
+    public List<UserDTO> getUserByUsername(String name);
+
+    public List<UserDTO> getUsersByRoleName(String roleName);
+
+    public List<UserDTO> getUsersByAgeGreaterThan(int age);
+
+    public List<UserDTO> findByAgeLessThan(int age);
 }

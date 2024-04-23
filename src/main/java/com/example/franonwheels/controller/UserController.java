@@ -71,4 +71,35 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping("/byRoleName")
+    public ResponseEntity<List<UserDTO>> getUsersByRoleName(@RequestParam String roleName) {
+        List<UserDTO> users = userServiceImpl.getUsersByRoleName(roleName);
+        if (!users.isEmpty()) {
+            return new ResponseEntity<>(users, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/agemorethan")
+    public ResponseEntity<List<UserDTO>> getUsersByAgeMoreThan(@RequestParam int age) {
+
+        List<UserDTO> users = userServiceImpl.getUsersByAgeGreaterThan(age);
+        if (!users.isEmpty()) {
+            return new ResponseEntity<>(users, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+    }
+
+    @GetMapping("/agelessthan")
+    public ResponseEntity<List<UserDTO>> getUsersByAgeLessThan(@RequestParam int age) {
+
+        List<UserDTO> users = userServiceImpl.findByAgeLessThan(age);
+        if (!users.isEmpty()) {
+            return new ResponseEntity<>(users, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+    }
+
 }
