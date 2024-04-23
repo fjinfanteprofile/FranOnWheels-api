@@ -6,18 +6,44 @@ import com.example.franonwheels.model.domain.User;
 import com.example.franonwheels.model.dtos.RoleDTO;
 import com.example.franonwheels.model.dtos.SpecialityDTO;
 import com.example.franonwheels.model.dtos.UserDTO;
+import com.example.franonwheels.repository.RoleRepository;
+import com.example.franonwheels.repository.SpecialityRepository;
+import org.springframework.stereotype.Component;
 
 import java.util.NoSuchElementException;
-
+import java.util.Optional;
+@Component
 public class UserMapper {
 
-    public static UserDTO userConvertToDTO(User user){
+    private static RoleRepository roleRepository;
+    private static SpecialityRepository specialityRepository;
 
-        if (user==null){
+    public UserMapper(RoleRepository roleRepository , SpecialityRepository specialityRepository) {
+        this.roleRepository = roleRepository;
+        this.specialityRepository = specialityRepository;
+    }
+
+    public static UserDTO userConvertToDTO(User user){
+        if (user == null){
             throw new NoSuchElementException("User provided is null");
         }
-        return UserDTO.builder()
+        RoleDTO roleDTO = null;
+        if (user.getRole() != null) {
+            roleDTO = RoleDTO.builder()
+                    .id(user.getRole().getId())
+                    .name(user.getRole().getName())
+                    .build();
+        }
 
+        SpecialityDTO specialityDTO = null;
+        if (user.getSpeciality() != null) {
+            specialityDTO = SpecialityDTO.builder()
+                    .id(user.getSpeciality().getId())
+                    .name(user.getSpeciality().getName())
+                    .build();
+        }
+        return UserDTO.builder()
+                .id(user.getId())
                 .name(user.getName())
                 .lastName(user.getLastName())
                 .dni(user.getDni())
@@ -25,27 +51,60 @@ public class UserMapper {
                 .address(user.getAddress())
                 .email(user.getEmail())
                 .password(user.getPassword())
-                .role(roleConvertToDTO(user.getRole()))
-                .speciality(specialityConvertToDTO(user.getSpeciality()))
+                .age(user.getAge())
+                .role(roleDTO)
+                .speciality(specialityDTO)
                 .build();
     }
 
-    public static User userConvertToEntity(UserDTO usersDTO) {
-        if (usersDTO == null) {
+    public static User userConvertToEntity(UserDTO userDTO) {
+        if (userDTO == null) {
             throw new IllegalArgumentException("UserDTO provided is null");
         }
 
-        return User.builder()
-                .name(usersDTO.getName())
-                .lastName(usersDTO.getLastName())
-                .email(usersDTO.getEmail())
-                .address(usersDTO.getAddress())
-                .phoneNumber(usersDTO.getPhoneNumber())
-                .dni(usersDTO.getDni())
-                .password(usersDTO.getPassword())
-                .role(roleConvertToEntity(usersDTO.getRole()))
-                .speciality(specialityConvertToEntity(usersDTO.getSpeciality()))
+        User user = User.builder()
+                .id(userDTO.getId())
+                .name(userDTO.getName())
+                .lastName(userDTO.getLastName())
+                .email(userDTO.getEmail())
+                .address(userDTO.getAddress())
+                .phoneNumber(userDTO.getPhoneNumber())
+                .age(userDTO.getAge())
+                .dni(userDTO.getDni())
+                .password(userDTO.getPassword())
                 .build();
+
+        // Convert RoleDTO to Role entity and set it on the User entity
+        if (userDTO.getRole() != null) {
+            RoleDTO roleDTO = userDTO.getRole();
+            if (roleDTO.getId() != null) {
+                Optional<Role> optionalRole = roleRepository.findById(roleDTO.getId());
+                if (optionalRole.isPresent()) {
+                    user.setRole(optionalRole.get());
+                } else {
+                    throw new NoSuchElementException("Role with ID " + roleDTO.getId() + " not found");
+                }
+            } else {
+                throw new IllegalArgumentException("Role ID is not provided");
+            }
+        }
+
+        // Convert SpecialityDTO to Speciality entity and set it on the User entity
+        if (userDTO.getSpeciality() != null) {
+            SpecialityDTO specialityDTO = userDTO.getSpeciality();
+            if (specialityDTO.getId() != null) {
+                Optional<Speciality> optionalSpeciality = specialityRepository.findById(specialityDTO.getId());
+                if (optionalSpeciality.isPresent()) {
+                    user.setSpeciality(optionalSpeciality.get());
+                } else {
+                    throw new NoSuchElementException("Speciality with ID " + specialityDTO.getId() + " not found");
+                }
+            } else {
+                throw new IllegalArgumentException("Speciality ID is not provided");
+            }
+        }
+
+        return user;
     }
 
     private static RoleDTO roleConvertToDTO(Role role) {
@@ -80,8 +139,4 @@ public class UserMapper {
                 .name(speciality.getName())
                 .build();
     }
-
-
-
-
 }

@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ClassesRepository extends JpaRepository<Classes, Long> {
 
-
+    void deleteClassesByUserId(Long userId);
 
 }

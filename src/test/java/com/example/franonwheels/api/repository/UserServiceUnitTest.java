@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 @ExtendWith(MockitoExtension.class)
 
 public class UserServiceUnitTest {
+
     //roles
     private final Role admin = Role.builder()
             .id(1L)

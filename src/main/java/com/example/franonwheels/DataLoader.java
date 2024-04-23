@@ -121,6 +121,8 @@ private void createSpecialities() {
                     .dni(generateRandomDNI())
                     .email("user" + i + "@example.com")
                     .address("Address " + i)
+                    .age(i)
+                    .password("pass" + i + ' ' + i)
                     .phoneNumber(generateRandomPhoneNumber())
                     .role(roles.get(random.nextInt(roles.size())))
                     .speciality(specialities.get(random.nextInt(specialities.size())))
