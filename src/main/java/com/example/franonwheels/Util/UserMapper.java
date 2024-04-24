@@ -6,24 +6,16 @@ import com.example.franonwheels.model.domain.User;
 import com.example.franonwheels.model.dtos.RoleDTO;
 import com.example.franonwheels.model.dtos.SpecialityDTO;
 import com.example.franonwheels.model.dtos.UserDTO;
-import com.example.franonwheels.repository.RoleRepository;
-import com.example.franonwheels.repository.SpecialityRepository;
-import org.springframework.stereotype.Component;
+import lombok.experimental.UtilityClass;
+
 
 import java.util.NoSuchElementException;
-import java.util.Optional;
-@Component
+
+@UtilityClass
 public class UserMapper {
 
-    private static RoleRepository roleRepository;
-    private static SpecialityRepository specialityRepository;
 
-    public UserMapper(RoleRepository roleRepository , SpecialityRepository specialityRepository) {
-        this.roleRepository = roleRepository;
-        this.specialityRepository = specialityRepository;
-    }
-
-    public static UserDTO userConvertToDTO(User user){
+    public UserDTO userConvertToDTO(User user){
         if (user == null){
             throw new NoSuchElementException("User provided is null");
         }
@@ -57,7 +49,7 @@ public class UserMapper {
                 .build();
     }
 
-    public static User userConvertToEntity(UserDTO userDTO) {
+    public User userConvertToEntity(UserDTO userDTO) {
         if (userDTO == null) {
             throw new IllegalArgumentException("UserDTO provided is null");
         }
@@ -71,43 +63,15 @@ public class UserMapper {
                 .phoneNumber(userDTO.getPhoneNumber())
                 .age(userDTO.getAge())
                 .dni(userDTO.getDni())
+                .role(roleConvertToEntity(userDTO.getRole()))
+                .speciality(specialityConvertToEntity(userDTO.getSpeciality()))
                 .password(userDTO.getPassword())
                 .build();
-
-        // Convert RoleDTO to Role entity and set it on the User entity
-        if (userDTO.getRole() != null) {
-            RoleDTO roleDTO = userDTO.getRole();
-            if (roleDTO.getId() != null) {
-                Optional<Role> optionalRole = roleRepository.findById(roleDTO.getId());
-                if (optionalRole.isPresent()) {
-                    user.setRole(optionalRole.get());
-                } else {
-                    throw new NoSuchElementException("Role with ID " + roleDTO.getId() + " not found");
-                }
-            } else {
-                throw new IllegalArgumentException("Role ID is not provided");
-            }
-        }
-
-        // Convert SpecialityDTO to Speciality entity and set it on the User entity
-        if (userDTO.getSpeciality() != null) {
-            SpecialityDTO specialityDTO = userDTO.getSpeciality();
-            if (specialityDTO.getId() != null) {
-                Optional<Speciality> optionalSpeciality = specialityRepository.findById(specialityDTO.getId());
-                if (optionalSpeciality.isPresent()) {
-                    user.setSpeciality(optionalSpeciality.get());
-                } else {
-                    throw new NoSuchElementException("Speciality with ID " + specialityDTO.getId() + " not found");
-                }
-            } else {
-                throw new IllegalArgumentException("Speciality ID is not provided");
-            }
-        }
 
         return user;
     }
 
-    private static RoleDTO roleConvertToDTO(Role role) {
+    private RoleDTO roleConvertToDTO(Role role) {
         if (role == null) {
             return null;
         }
@@ -115,7 +79,7 @@ public class UserMapper {
                 .name(role.getName())
                 .build();
     }
-    private static Speciality specialityConvertToEntity(SpecialityDTO specialityDTO) {
+    private Speciality specialityConvertToEntity(SpecialityDTO specialityDTO) {
         if (specialityDTO == null) {
             return null;
         }
@@ -123,7 +87,7 @@ public class UserMapper {
                 .name(specialityDTO.getName())
                 .build();
     }
-    private static Role roleConvertToEntity(RoleDTO roleDTO) {
+    private Role roleConvertToEntity(RoleDTO roleDTO) {
         if (roleDTO == null) {
             return null;
         }
@@ -131,7 +95,7 @@ public class UserMapper {
                 .name(roleDTO.getName())
                 .build();
     }
-    private static SpecialityDTO specialityConvertToDTO(Speciality speciality) {
+    private SpecialityDTO specialityConvertToDTO(Speciality speciality) {
         if (speciality == null) {
             return null;
         }

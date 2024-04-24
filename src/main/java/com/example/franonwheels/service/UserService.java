@@ -1,6 +1,5 @@
 package com.example.franonwheels.service;
 
-import com.example.franonwheels.model.domain.User;
 import com.example.franonwheels.model.dtos.UserDTO;
 
 import java.util.List;
@@ -14,7 +13,7 @@ public interface UserService {
 
     Optional<UserDTO> getUserById(Long id);
 
-    UserDTO updateUser(UserDTO userDTO);
+    Optional<UserDTO> updateUser(UserDTO userDTO, Long id);
 
     void deleteUserById(Long id);
 

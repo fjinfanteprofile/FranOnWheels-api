@@ -1,6 +1,8 @@
 package com.example.franonwheels.service.impl;
 
 import com.example.franonwheels.Util.UserMapper;
+import com.example.franonwheels.model.domain.Role;
+import com.example.franonwheels.model.domain.Speciality;
 import com.example.franonwheels.model.domain.User;
 import com.example.franonwheels.model.dtos.UserDTO;
 import com.example.franonwheels.repository.BookingsRepository;
@@ -8,6 +10,7 @@ import com.example.franonwheels.repository.ClassesRepository;
 import com.example.franonwheels.repository.RoleRepository;
 import com.example.franonwheels.repository.SpecialityRepository;
 import com.example.franonwheels.repository.UserRepository;
+import com.example.franonwheels.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,10 +21,9 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl {
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final UserMapper userMapper;
     private final SpecialityRepository specialityRepository;
     private final RoleRepository roleRepository;
     private final BookingsRepository bookingsRepository;
@@ -30,8 +32,31 @@ public class UserServiceImpl {
 
     // Create operation
     public UserDTO createUser(UserDTO userDTO) {
+        // Convert UserDTO to User entity
+        User user = UserMapper.userConvertToEntity(userDTO);
 
-        return userMapper.userConvertToDTO(this.userRepository.save(userMapper.userConvertToEntity(userDTO)));
+        // Check and save associated role entity
+        if (user.getRole() != null) {
+            Role role = user.getRole();
+            if (role.getId() == null) {
+                // Role entity is not saved yet, save it first
+                role = roleRepository.save(role);
+            }
+            user.setRole(role); // Set the entity to user
+        }
+
+        // Check and save associated speciality entity
+        if (user.getSpeciality() != null) {
+            Speciality speciality = user.getSpeciality();
+            if (speciality.getId() == null) {
+                // Speciality entity is not saved yet, save it first
+                speciality = specialityRepository.save(speciality);
+            }
+            user.setSpeciality(speciality); // Set the entity to user
+        }
+
+        // Convert User entity to UserDTO and return
+        return UserMapper.userConvertToDTO(userRepository.save(user));
     }
 
     // Read operations
@@ -82,7 +107,7 @@ public class UserServiceImpl {
             User updatedUser = userRepository.save(user);
 
             // Convert the updated user entity to UserDTO
-            UserDTO updatedUserDTO = userMapper.userConvertToDTO(updatedUser);
+            UserDTO updatedUserDTO = UserMapper.userConvertToDTO(updatedUser);
             return Optional.of(updatedUserDTO);
         } else {
             // User not found

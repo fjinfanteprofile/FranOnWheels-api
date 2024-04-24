@@ -4,6 +4,7 @@ import com.example.franonwheels.Util.RoleMapper;
 import com.example.franonwheels.model.domain.Role;
 import com.example.franonwheels.model.dtos.RoleDTO;
 import com.example.franonwheels.repository.RoleRepository;
+import com.example.franonwheels.service.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class RoleServiceImpl {
+public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository roleRepository;
 
