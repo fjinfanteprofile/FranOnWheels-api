@@ -4,6 +4,7 @@ import com.example.franonwheels.Util.ClassesMapper;
 import com.example.franonwheels.model.domain.Classes;
 import com.example.franonwheels.model.dtos.ClassesDTO;
 import com.example.franonwheels.repository.ClassesRepository;
+import com.example.franonwheels.service.ClassesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class ClassesServiceImpl {
+public class ClassesServiceImpl implements ClassesService {
 
     private final ClassesRepository classesRepository;
 

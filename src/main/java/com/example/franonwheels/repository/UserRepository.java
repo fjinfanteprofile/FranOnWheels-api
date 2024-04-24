@@ -14,13 +14,7 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     // Finds users by their role name
-    List<User> findByRoleName(@Param("roleName") String roleName);
-
-    // Finds a user by their last name and first name
-    User findByLastNameAndName(@Param("Name") String Name, @Param("lastName") String lastName);
-
-    // Finds users by their first name (case-sensitive)
-    User findByNameEquals(@Param("Name") String Name);
+    List<User> findByRoleNameIgnoreCaseContaining(@Param("roleName") String roleName);
 
     // Finds users by their speciality name
     List<User> findUsersBySpecialityName(@Param("specialityName") String specialityName);
@@ -33,22 +27,13 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT b FROM User u JOIN u.bookings b WHERE u.dni = :dni")
     List<Bookings> findBookingsByUserDNI(@Param("dni") String dni);
 
-    // Custom query to find all bookings for a user based on their DNI and name (like clause)
-    @Query("SELECT b FROM User u JOIN u.bookings b WHERE u.dni = :dni AND u.name LIKE %:name%")
-    List<Bookings> findBookingsByUserDNIAndNameLike(@Param("dni") String dni, @Param("name") String name);
-
     // Finds users whose first name contains a specified pattern (case-sensitive)
-    List<User> findByNameLike(@Param("Name") String Name);
-
-    // Finds users whose age is less than the specified age
-    List<User> findByAgeLessThan(@Param("Age") Integer Age);
+    List<User> findByNameIgnoreCaseContaining(@Param("Name") String Name);
 
     // Finds users whose age is greater than the specified age
     List<User> findByAgeGreaterThan(@Param("Age") Integer Age);
 
-    // Finds users whose last name starts with the specified prefix using LIKE
-    List<User> findByLastNameLike(@Param("Prefix") String Prefix);
+    // Finds users whose age is less than the specified age
+    List<User> findByAgeLessThan(@Param("Age") Integer Age);
 
-    // Finds users whose address contains the specified keyword using LIKE
-    List<User> findByAddressLike(@Param("Keyword") String Keyword);
 }

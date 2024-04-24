@@ -1,26 +1,62 @@
 package com.example.franonwheels.service.impl;
 
 import com.example.franonwheels.Util.UserMapper;
+import com.example.franonwheels.model.domain.Role;
+import com.example.franonwheels.model.domain.Speciality;
 import com.example.franonwheels.model.domain.User;
 import com.example.franonwheels.model.dtos.UserDTO;
+import com.example.franonwheels.repository.BookingsRepository;
+import com.example.franonwheels.repository.ClassesRepository;
+import com.example.franonwheels.repository.RoleRepository;
+import com.example.franonwheels.repository.SpecialityRepository;
 import com.example.franonwheels.repository.UserRepository;
+import com.example.franonwheels.service.UserService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl {
+public class UserServiceImpl implements UserService {
 
-    private  UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final SpecialityRepository specialityRepository;
+    private final RoleRepository roleRepository;
+    private final BookingsRepository bookingsRepository;
+    private final ClassesRepository classesRepository;
 
 
     // Create operation
     public UserDTO createUser(UserDTO userDTO) {
+        // Convert UserDTO to User entity
+        User user = UserMapper.userConvertToEntity(userDTO);
 
-        return UserMapper.userConvertToDTO(this.userRepository.save(UserMapper.userConvertToEntity(userDTO)));
+        // Check and save associated role entity
+        if (user.getRole() != null) {
+            Role role = user.getRole();
+            if (role.getId() == null) {
+                // Role entity is not saved yet, save it first
+                role = roleRepository.save(role);
+            }
+            user.setRole(role); // Set the entity to user
+        }
+
+        // Check and save associated speciality entity
+        if (user.getSpeciality() != null) {
+            Speciality speciality = user.getSpeciality();
+            if (speciality.getId() == null) {
+                // Speciality entity is not saved yet, save it first
+                speciality = specialityRepository.save(speciality);
+            }
+            user.setSpeciality(speciality); // Set the entity to user
+        }
+
+        // Convert User entity to UserDTO and return
+        return UserMapper.userConvertToDTO(userRepository.save(user));
     }
 
     // Read operations
@@ -36,24 +72,105 @@ public class UserServiceImpl {
         return user.map(UserMapper::userConvertToDTO);
     }
 
-    public UserDTO updateUser(UserDTO userDTO) {
+    public Optional<UserDTO> updateUser(UserDTO userDTO, Long id) {
+        // Check if the provided UserDTO has a valid ID
+        if (userDTO.getId() == null) {
+            throw new IllegalArgumentException("User ID is required for update");
+        }
 
-        return UserMapper.userConvertToDTO(this.userRepository.save(UserMapper.userConvertToEntity(userDTO)));
+        // Retrieve the user entity from the repository based on the provided ID
+        Optional<User> optionalUser = userRepository.findById(id);
+
+        // Check if the user exists
+        if (optionalUser.isPresent()) {
+            // Map the updated fields from the UserDTO to the user entity
+            User user = optionalUser.get();
+            user.setName(userDTO.getName());
+            user.setLastName(userDTO.getLastName());
+            user.setDni(userDTO.getDni());
+            user.setPhoneNumber(userDTO.getPhoneNumber());
+            user.setAddress(userDTO.getAddress());
+            user.setEmail(userDTO.getEmail());
+            user.setPassword(userDTO.getPassword());
+            user.setAge(userDTO.getAge());
+            // Update role and speciality if needed
+            if (userDTO.getRole() != null) {
+                user.setRole(roleRepository.findById(userDTO.getRole().getId())
+                        .orElseThrow(() -> new NoSuchElementException("Role not found")));
+            }
+            if (userDTO.getSpeciality() != null) {
+                user.setSpeciality(specialityRepository.findById(userDTO.getSpeciality().getId())
+                        .orElseThrow(() -> new NoSuchElementException("Speciality not found")));
+            }
+
+            // Save the updated user entity
+            User updatedUser = userRepository.save(user);
+
+            // Convert the updated user entity to UserDTO
+            UserDTO updatedUserDTO = UserMapper.userConvertToDTO(updatedUser);
+            return Optional.of(updatedUserDTO);
+        } else {
+            // User not found
+            return Optional.empty();
+        }
     }
-
 
     // Delete operation
+    @Transactional
     public void deleteUserById(Long id) {
-        userRepository.deleteById(id);
-    }
 
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+
+            bookingsRepository.deleteBookingsByUserId(user.getId());
+            classesRepository.deleteClassesByUserId(user.getId());
+
+            userRepository.deleteById(id);
+
+        } else {
+            throw new NoSuchElementException("User not found");
+        }
+    }
     public List<UserDTO> getAdminUsers() {
-        List<User> adminUsers = userRepository.findByRoleName("ADMIN");
+        List<User> adminUsers = userRepository.findByRoleNameIgnoreCaseContaining("ADMIN");
 
         return adminUsers.stream()
                 .map(UserMapper::userConvertToDTO)
                 .collect(Collectors.toList());
     }
 
+    public List<UserDTO> getUserByUsername(String name) {
 
+        List<User> user = userRepository.findByNameIgnoreCaseContaining(name);
+        return user.stream().
+                map(UserMapper::userConvertToDTO)
+               .collect(Collectors.toList());
+
+    }
+
+    public List<UserDTO> getUsersByRoleName(String roleName) {
+        List<User> users = userRepository.findByRoleNameIgnoreCaseContaining(roleName);
+        return users.stream().
+                map(UserMapper::userConvertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<UserDTO> getUsersByAgeGreaterThan(int age) {
+
+        List<User> users = userRepository.findByAgeGreaterThan(age);
+        return users.stream().
+                map(UserMapper::userConvertToDTO)
+                .collect(Collectors.toList());
+
+    }
+
+    public List<UserDTO> findByAgeLessThan(int age) {
+
+        List<User> users = userRepository.findByAgeLessThan(age);
+        return users.stream().
+                map(UserMapper::userConvertToDTO)
+                .collect(Collectors.toList());
+
+    }
 }

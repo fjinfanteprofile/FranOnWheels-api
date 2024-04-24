@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 @Builder
 public class UserDTO {
+    private Long id;
     private String name;
     private String lastName;
     private String dni;
@@ -15,6 +16,7 @@ public class UserDTO {
     private String address;
     private String email;
     private String password;
-    private com.example.franonwheels.model.dtos.RoleDTO role;
-    private com.example.franonwheels.model.dtos.SpecialityDTO speciality;
+    private Integer age;
+    private RoleDTO role;
+    private SpecialityDTO speciality;
 }

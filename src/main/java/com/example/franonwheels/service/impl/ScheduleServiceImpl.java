@@ -4,6 +4,7 @@ import com.example.franonwheels.Util.ScheduleMapper;
 import com.example.franonwheels.model.domain.Schedule;
 import com.example.franonwheels.model.dtos.ScheduleDTO;
 import com.example.franonwheels.repository.ScheduleRepository;
+import com.example.franonwheels.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class ScheduleServiceImpl {
+public class ScheduleServiceImpl implements ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
 
