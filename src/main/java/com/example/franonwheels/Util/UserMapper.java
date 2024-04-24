@@ -1,7 +1,5 @@
 package com.example.franonwheels.Util;
 
-import com.example.franonwheels.model.domain.Role;
-import com.example.franonwheels.model.domain.Speciality;
 import com.example.franonwheels.model.domain.User;
 import com.example.franonwheels.model.dtos.RoleDTO;
 import com.example.franonwheels.model.dtos.SpecialityDTO;
@@ -54,7 +52,7 @@ public class UserMapper {
             throw new IllegalArgumentException("UserDTO provided is null");
         }
 
-        User user = User.builder()
+        return User.builder()
                 .id(userDTO.getId())
                 .name(userDTO.getName())
                 .lastName(userDTO.getLastName())
@@ -63,44 +61,9 @@ public class UserMapper {
                 .phoneNumber(userDTO.getPhoneNumber())
                 .age(userDTO.getAge())
                 .dni(userDTO.getDni())
-                .role(roleConvertToEntity(userDTO.getRole()))
-                .speciality(specialityConvertToEntity(userDTO.getSpeciality()))
+                .role(RoleMapper.dtoToRole(userDTO.getRole()))
+                .speciality(SpecialityMapper.SpecialityDTOtoEntity(userDTO.getSpeciality()))
                 .password(userDTO.getPassword())
-                .build();
-
-        return user;
-    }
-
-    private RoleDTO roleConvertToDTO(Role role) {
-        if (role == null) {
-            return null;
-        }
-        return RoleDTO.builder()
-                .name(role.getName())
-                .build();
-    }
-    private Speciality specialityConvertToEntity(SpecialityDTO specialityDTO) {
-        if (specialityDTO == null) {
-            return null;
-        }
-        return Speciality.builder()
-                .name(specialityDTO.getName())
-                .build();
-    }
-    private Role roleConvertToEntity(RoleDTO roleDTO) {
-        if (roleDTO == null) {
-            return null;
-        }
-        return Role.builder()
-                .name(roleDTO.getName())
-                .build();
-    }
-    private SpecialityDTO specialityConvertToDTO(Speciality speciality) {
-        if (speciality == null) {
-            return null;
-        }
-        return SpecialityDTO.builder()
-                .name(speciality.getName())
                 .build();
     }
 }
