@@ -1,14 +1,9 @@
 package com.example.franonwheels.service.impl;
 
-import com.example.franonwheels.Util.UserMapper;
 import com.example.franonwheels.Util.VehicleMapper;
 import com.example.franonwheels.Util.VehicleTypeMapper;
-import com.example.franonwheels.model.domain.Role;
-import com.example.franonwheels.model.domain.Speciality;
-import com.example.franonwheels.model.domain.User;
 import com.example.franonwheels.model.domain.Vehicle;
 import com.example.franonwheels.model.domain.VehicleType;
-import com.example.franonwheels.model.dtos.UserDTO;
 import com.example.franonwheels.model.dtos.VehicleDTO;
 import com.example.franonwheels.model.dtos.VehicleTypeDTO;
 import com.example.franonwheels.repository.VehicleRepository;
@@ -91,11 +86,28 @@ public class VehicleServiceImpl implements VehicleService {
         return vehicle.map(VehicleMapper::vehicleConvertToDTO);
     }
 
-    // Update operation
     public Optional<VehicleDTO> updateVehicle(VehicleDTO vehicleDTO, Long id) {
-        VehicleDTO updatedVehicle = VehicleMapper.vehicleConvertToDTO(this.vehicleRepository.save(VehicleMapper.vehicleConvertToEntity(vehicleDTO)));
-        return Optional.of(updatedVehicle);
+        // Retrieve the existing vehicle entity from the repository
+        Optional<Vehicle> optionalVehicle = vehicleRepository.findById(id);
+        if (optionalVehicle.isPresent()) {
+            Vehicle existingVehicle = optionalVehicle.get();
 
+            // Update the fields of the existing entity with the new data from the DTO
+            existingVehicle.setModel(vehicleDTO.getModel());
+            existingVehicle.setYear(vehicleDTO.getYear());
+            existingVehicle.setLicensePlate(vehicleDTO.getLicensePlate());
+            existingVehicle.setGearbox(vehicleDTO.getGearbox());
+            existingVehicle.setDisplacementCc(vehicleDTO.getDisplacementCc());
+
+            // Save the updated entity
+            existingVehicle = vehicleRepository.save(existingVehicle);
+
+            // Convert the updated entity to DTO and return it
+            return Optional.of(VehicleMapper.vehicleConvertToDTO(existingVehicle));
+        } else {
+            // If the vehicle with the specified ID does not exist, return an empty optional
+            return Optional.empty();
+        }
     }
 
     // Delete operation
