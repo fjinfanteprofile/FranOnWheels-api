@@ -11,6 +11,7 @@ public class RoleMapper {
             return null;
         }
         return RoleDTO.builder()
+                .id(role.getId())
                 .name(role.getName())
                 .build();
     }
@@ -22,6 +23,7 @@ public class RoleMapper {
         }
 
         return Role.builder()
+                .id(roleDTO.getId())
                 .name(roleDTO.getName())
                 .build();
     }
