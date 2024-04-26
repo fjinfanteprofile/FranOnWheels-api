@@ -37,19 +37,19 @@ public class VehicleController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ResponseEntity<Optional<VehicleDTO>> updateVehicle(@RequestBody VehicleDTO vehicleDTO, @RequestParam Long id) {
         Optional<VehicleDTO> updatedVehicle = vehicleServiceImpl.updateVehicle(vehicleDTO, id);
         return new ResponseEntity<>(updatedVehicle, HttpStatus.OK);
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     public ResponseEntity<Void> deleteVehicleById(@RequestParam Long id) {
         vehicleServiceImpl.deactivateVehicleById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PostMapping("/activate")
+    @PatchMapping("/activate")
     public ResponseEntity<Void> activateVehicleById(@RequestParam Long id) {
         vehicleServiceImpl.activateVehicleById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

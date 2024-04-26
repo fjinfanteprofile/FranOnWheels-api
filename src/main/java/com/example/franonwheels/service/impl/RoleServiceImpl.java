@@ -8,9 +8,12 @@ import com.example.franonwheels.repository.RoleRepository;
 import com.example.franonwheels.repository.UserRepository;
 import com.example.franonwheels.service.RoleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -44,24 +47,33 @@ public class RoleServiceImpl implements RoleService {
         Optional<Role> optionalRole = roleRepository.findById(id);
         if (optionalRole.isPresent()) {
             Role existingRole = optionalRole.get();
-            existingRole.setName(roleDTO.getName()); // Only updating name for now, other attributes could be added
+            existingRole.setName(roleDTO.getName());
             Role updatedRole = roleRepository.save(existingRole);
             return Optional.of(RoleMapper.roletoDTO(updatedRole));
         } else {
-            // Role not found
-            return Optional.empty();
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Role not found with ID: " + id);
         }
     }
 
-    // Delete operation
-    public void deleteRoleById(Long id) {
-        // Set role to null for users associated with the role being deleted
-        List<User> usersWithRole = userRepository.findByRoleId(id);
-        for (User user : usersWithRole) {
-            user.setRole(null);
+    public void deactivateRoleById(Long id) {
+        Optional<Role> optionalRole = roleRepository.findById(id);
+        if (optionalRole.isPresent()) {
+            Role role = optionalRole.get();
+            role.setActive(0); // Set active to 0 (inactive)
+            roleRepository.save(role);
+        } else {
+            throw new NoSuchElementException("Role not found with ID: " + id);
         }
-        userRepository.saveAll(usersWithRole); // Save changes to users
+    }
 
-        roleRepository.deleteById(id);
+    public void activateRoleById(Long id) {
+        Optional<Role> optionalRole = roleRepository.findById(id);
+        if (optionalRole.isPresent()) {
+            Role role = optionalRole.get();
+            role.setActive(1); // Set active to 1 (active)
+            roleRepository.save(role);
+        } else {
+            throw new NoSuchElementException("Role not found with ID: " + id);
+        }
     }
 }
