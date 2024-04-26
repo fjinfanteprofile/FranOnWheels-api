@@ -43,7 +43,6 @@ public class VehicleServiceImpl implements VehicleService {
             }
         } else {
             // Handle scenario when VehicleType ID is not provided
-            // This part remains the same as your original implementation
             VehicleTypeDTO vehicleTypeDTO = vehicleDTO.getType();
             VehicleType vehicleType;
             if (vehicleTypeDTO != null && vehicleTypeDTO.getName() != null) {
@@ -58,7 +57,6 @@ public class VehicleServiceImpl implements VehicleService {
                 vehicleType = vehicleTypeRepository.save(vehicleType);
             }
             vehicle.setType(vehicleType);
-
             // Set the ID and name of the VehicleTypeDTO
             vehicleTypeDTO.setId(vehicleType.getId());
             vehicleTypeDTO.setName(vehicleType.getName());
@@ -70,8 +68,6 @@ public class VehicleServiceImpl implements VehicleService {
         // Convert saved Vehicle entity back to VehicleDTO and return
         return VehicleMapper.vehicleConvertToDTO(vehicle);
     }
-
-
 
     // Read operations
     public List<VehicleDTO> getAllVehicles() {
