@@ -1,10 +1,12 @@
 package com.example.franonwheels.service;
 
+import com.example.franonwheels.Util.VehicleMapper;
 import com.example.franonwheels.model.domain.Vehicle;
 import com.example.franonwheels.model.dtos.VehicleDTO;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public interface VehicleService {
 
@@ -19,4 +21,8 @@ public interface VehicleService {
     void deactivateVehicleById(Long id);
 
     void activateVehicleById(Long id);
+
+    public List<VehicleDTO> getActiveVehicles();
+
+    public List<VehicleDTO> getInactiveVehicles();
 }

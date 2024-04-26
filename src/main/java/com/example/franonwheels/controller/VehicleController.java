@@ -54,4 +54,16 @@ public class VehicleController {
         vehicleServiceImpl.activateVehicleById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @GetMapping("/active")
+    public ResponseEntity<List<VehicleDTO>> getActiveVehicles() {
+        List<VehicleDTO> activeVehicles = vehicleServiceImpl.getActiveVehicles();
+        return new ResponseEntity<>(activeVehicles, HttpStatus.OK);
+    }
+
+    @GetMapping("/inactive")
+    public ResponseEntity<List<VehicleDTO>> getInactiveVehicles() {
+        List<VehicleDTO> inactiveVehicles = vehicleServiceImpl.getInactiveVehicles();
+        return new ResponseEntity<>(inactiveVehicles, HttpStatus.OK);
+    }
 }

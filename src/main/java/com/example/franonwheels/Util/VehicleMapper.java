@@ -24,6 +24,7 @@ public class VehicleMapper {
                 .licensePlate(vehicle.getLicensePlate())
                 .gearbox(vehicle.getGearbox())
                 .displacementCc(vehicle.getDisplacementCc())
+                .active(vehicle.getActive())
                 .build();
     }
 
@@ -40,6 +41,7 @@ public class VehicleMapper {
                 .licensePlate(vehicleDTO.getLicensePlate())
                 .gearbox(vehicleDTO.getGearbox())
                 .displacementCc(vehicleDTO.getDisplacementCc())
+                .active(vehicleDTO.getActive())
                 .build();
     }
 

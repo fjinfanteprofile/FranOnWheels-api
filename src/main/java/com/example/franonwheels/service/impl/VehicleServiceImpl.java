@@ -124,4 +124,18 @@ public class VehicleServiceImpl implements VehicleService {
         });
     }
 
+    public List<VehicleDTO> getActiveVehicles() {
+        List<Vehicle> activeVehicles = vehicleRepository.findByActive(1); // Assuming active vehicles have active = 1
+        return activeVehicles.stream()
+                .map(VehicleMapper::vehicleConvertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<VehicleDTO> getInactiveVehicles() {
+        List<Vehicle> inactiveVehicles = vehicleRepository.findByActive(0); // Assuming inactive vehicles have active = 0
+        return inactiveVehicles.stream()
+                .map(VehicleMapper::vehicleConvertToDTO)
+                .collect(Collectors.toList());
+    }
+
 }
