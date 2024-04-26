@@ -43,9 +43,15 @@ public class VehicleController {
         return new ResponseEntity<>(updatedVehicle, HttpStatus.OK);
     }
 
-    @GetMapping("/delete")
+    @PostMapping("/delete")
     public ResponseEntity<Void> deleteVehicleById(@RequestParam Long id) {
-        vehicleServiceImpl.deleteVehicleById(id);
+        vehicleServiceImpl.deactivateVehicleById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/activate")
+    public ResponseEntity<Void> activateVehicleById(@RequestParam Long id) {
+        vehicleServiceImpl.activateVehicleById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

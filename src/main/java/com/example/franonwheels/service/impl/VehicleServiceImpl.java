@@ -110,9 +110,22 @@ public class VehicleServiceImpl implements VehicleService {
         }
     }
 
-    // Delete operation
-    public void deleteVehicleById(Long id) {
-        vehicleRepository.deleteById(id);
+    // soft Delete operation
+    public void deactivateVehicleById(Long id) {
+        Optional<Vehicle> optionalVehicle = vehicleRepository.findById(id);
+        optionalVehicle.ifPresent(vehicle -> {
+            vehicle.setActive(0); // Set active to 0 (inactive)
+            vehicleRepository.save(vehicle);
+        });
+    }
+
+    // Activate operation
+    public void activateVehicleById(Long id) {
+        Optional<Vehicle> optionalVehicle = vehicleRepository.findById(id);
+        optionalVehicle.ifPresent(vehicle -> {
+            vehicle.setActive(1); // Set active to 1 (active)
+            vehicleRepository.save(vehicle);
+        });
     }
 
 }

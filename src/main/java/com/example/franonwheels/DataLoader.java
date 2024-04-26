@@ -164,6 +164,7 @@ private void createSpecialities() {
                     .licensePlate(generateRandomLicensePlate())
                     .gearbox("Automatic") // Assuming all vehicles have automatic gearbox for simplicity
                     .displacementCc(random.nextInt(3000) + 1000) // Random displacement between 1000 and 3999 cc
+                    .active(1)
                     .build();
             vehicleRepository.save(vehicle);
         }

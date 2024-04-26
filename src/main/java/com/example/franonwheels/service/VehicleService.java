@@ -16,5 +16,7 @@ public interface VehicleService {
 
     Optional<VehicleDTO> updateVehicle(VehicleDTO vehicleDTO, Long id);
 
-    void deleteVehicleById(Long id);
+    void deactivateVehicleById(Long id);
+
+    void activateVehicleById(Long id);
 }

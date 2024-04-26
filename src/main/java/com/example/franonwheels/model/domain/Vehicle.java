@@ -33,7 +33,7 @@ public class Vehicle {
 
     private String model;
 
-    private int year;
+    private Integer year;
 
     @Column(name = "license_plate")
     private String licensePlate;
@@ -41,6 +41,8 @@ public class Vehicle {
     private String gearbox;
 
     @Column(name = "displacement_cc")
-    private int displacementCc;
+    private Integer displacementCc;
+
+    private Integer active; // active 1 , not active 0
 
 }
