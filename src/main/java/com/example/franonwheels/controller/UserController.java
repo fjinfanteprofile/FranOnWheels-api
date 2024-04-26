@@ -110,4 +110,16 @@ public class UserController {
 
     }
 
+    @GetMapping("/showactive")
+    public ResponseEntity<List<UserDTO>> getActiveUsers() {
+        List<UserDTO> activeUsers = userServiceImpl.getActiveUsers();
+        return new ResponseEntity<>(activeUsers, HttpStatus.OK);
+    }
+
+    @GetMapping("/showinactive")
+    public ResponseEntity<List<UserDTO>> getInactiveUsers() {
+        List<UserDTO> inactiveUsers = userServiceImpl.getInactiveUsers();
+        return new ResponseEntity<>(inactiveUsers, HttpStatus.OK);
+    }
+
 }

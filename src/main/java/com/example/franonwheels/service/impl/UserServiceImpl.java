@@ -172,4 +172,18 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
 
     }
+
+    public List<UserDTO> getActiveUsers() {
+        List<User> activeUsers = userRepository.findByActive(1); // Assuming active flag is 1 for active users
+        return activeUsers.stream()
+                .map(UserMapper::userConvertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<UserDTO> getInactiveUsers() {
+        List<User> inactiveUsers = userRepository.findByActive(0); // Assuming active flag is 0 for inactive users
+        return inactiveUsers.stream()
+                .map(UserMapper::userConvertToDTO)
+                .collect(Collectors.toList());
+    }
 }

@@ -65,5 +65,16 @@ public class RoleController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @GetMapping("/showactive")
+    public ResponseEntity<List<RoleDTO>> getActiveRoles() {
+        List<RoleDTO> activeRoles = roleServiceImpl.getActiveRoles();
+        return new ResponseEntity<>(activeRoles, HttpStatus.OK);
+    }
+
+    @GetMapping("/showinactive")
+    public ResponseEntity<List<RoleDTO>> getInactiveRoles() {
+        List<RoleDTO> inactiveRoles = roleServiceImpl.getInactiveRoles();
+        return new ResponseEntity<>(inactiveRoles, HttpStatus.OK);
+    }
 
 }

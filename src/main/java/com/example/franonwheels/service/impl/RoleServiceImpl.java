@@ -76,4 +76,20 @@ public class RoleServiceImpl implements RoleService {
             throw new NoSuchElementException("Role not found with ID: " + id);
         }
     }
+
+    // Method to get all active roles
+    public List<RoleDTO> getActiveRoles() {
+        List<Role> activeRoles = roleRepository.findByActive(1);
+        return activeRoles.stream()
+                .map(RoleMapper::roletoDTO)
+                .collect(Collectors.toList());
+    }
+
+    // Method to get all inactive roles
+    public List<RoleDTO> getInactiveRoles() {
+        List<Role> inactiveRoles = roleRepository.findByActive(0);
+        return inactiveRoles.stream()
+                .map(RoleMapper::roletoDTO)
+                .collect(Collectors.toList());
+    }
 }
