@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -30,7 +31,7 @@ public class VehicleServiceImpl implements VehicleService {
         Vehicle vehicle = VehicleMapper.vehicleConvertToEntity(vehicleDTO);
 
         // If VehicleTypeDTO is present
-        if (vehicleDTO.getType() != null && vehicleDTO.getType().getId() != null) {
+        if (Objects.nonNull(vehicleDTO.getType()) && Objects.nonNull(vehicleDTO.getType().getId())) {
             Long vehicleTypeId = vehicleDTO.getType().getId();
             // Check if VehicleType with the provided ID exists in the database
             Optional<VehicleType> optionalVehicleType = vehicleTypeRepository.findById(vehicleTypeId);
