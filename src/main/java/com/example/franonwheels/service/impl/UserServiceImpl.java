@@ -115,23 +115,22 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    // Delete operation
-    @Transactional
-    public void deleteUserById(Long id) {
-
+    public void deactivateUserById(Long id) {
         Optional<User> optionalUser = userRepository.findById(id);
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-
-            bookingsRepository.deleteBookingsByUserId(user.getId());
-            classesRepository.deleteClassesByUserId(user.getId());
-
-            userRepository.deleteById(id);
-
-        } else {
-            throw new NoSuchElementException("User not found");
-        }
+        optionalUser.ifPresent(user -> {
+            user.setActive(0); // Set active to 0 (inactive)
+            userRepository.save(user);
+        });
     }
+
+    public void activateUserById(Long id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        optionalUser.ifPresent(user -> {
+            user.setActive(1); // Set active to 1 (active)
+            userRepository.save(user);
+        });
+    }
+
     public List<UserDTO> getAdminUsers() {
         List<User> adminUsers = userRepository.findByRoleNameIgnoreCaseContaining("ADMIN");
 

@@ -44,6 +44,7 @@ public class UserMapper {
                 .age(user.getAge())
                 .role(roleDTO)
                 .speciality(specialityDTO)
+                .active(user.getActive())
                 .build();
     }
 
@@ -64,6 +65,7 @@ public class UserMapper {
                 .role(RoleMapper.dtoToRole(userDTO.getRole()))
                 .speciality(SpecialityMapper.SpecialityDTOtoEntity(userDTO.getSpeciality()))
                 .password(userDTO.getPassword())
+                .active(userDTO.getActive())
                 .build();
     }
 }

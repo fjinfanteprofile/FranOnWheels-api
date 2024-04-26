@@ -15,7 +15,9 @@ public interface UserService {
 
     Optional<UserDTO> updateUser(UserDTO userDTO, Long id);
 
-    void deleteUserById(Long id);
+    public void deactivateUserById(Long id);
+
+    public void activateUserById(Long id);
 
     List<UserDTO> getAdminUsers();
 

@@ -50,9 +50,15 @@ public class UserController {
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 
-    @GetMapping("/delete")
-    public ResponseEntity<Void> deleteUserById(@RequestParam Long id) {
-        userServiceImpl.deleteUserById(id);
+    @PostMapping("/activate")
+    public ResponseEntity<Void> activateUserById(@RequestParam Long id) {
+        userServiceImpl.activateUserById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/delete")
+    public ResponseEntity<Void> deactivateUserById(@RequestParam Long id) {
+        userServiceImpl.deactivateUserById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

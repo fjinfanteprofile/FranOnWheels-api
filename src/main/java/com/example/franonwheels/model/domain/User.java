@@ -59,4 +59,6 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Bookings> bookings;
 
+    private Integer active;
+
 }
