@@ -44,7 +44,7 @@ public class RoleServiceImpl implements RoleService {
         Optional<Role> optionalRole = roleRepository.findById(id);
         if (optionalRole.isPresent()) {
             Role existingRole = optionalRole.get();
-            existingRole.setName(roleDTO.getName()); // Assuming you're updating only the name
+            existingRole.setName(roleDTO.getName()); // Only updating name for now, other attributes could be added
             Role updatedRole = roleRepository.save(existingRole);
             return Optional.of(RoleMapper.roletoDTO(updatedRole));
         } else {
