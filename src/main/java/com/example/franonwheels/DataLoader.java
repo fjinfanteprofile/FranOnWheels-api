@@ -79,8 +79,8 @@ public class DataLoader {
     private void createRoles() {
         // Check if roles already exist in the database
         if (roleRepository.count() == 0) {
-            roleRepository.save(new Role("USER")); // Save ROLE_USER
-            roleRepository.save(new Role("ADMIN")); // Save ROLE_ADMIN
+            roleRepository.save((Role) Role.builder().name("USER").active(1).build()); // Save ROLE_USER
+            roleRepository.save((Role) Role.builder().name("ADMIN").active(1).build()); // Save ROLE_ADMIN
         }
     }
 
@@ -116,6 +116,7 @@ private void createSpecialities() {
 
         for (int i = 0; i < 10; i++) {
             User user = User.builder()
+                    .active(1)
                     .name("User" + i)
                     .lastName("LastName" + i)
                     .dni(generateRandomDNI())

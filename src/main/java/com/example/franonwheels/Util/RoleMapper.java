@@ -12,6 +12,7 @@ public class RoleMapper {
         }
         return RoleDTO.builder()
                 .id(role.getId())
+                .active(role.getActive())
                 .name(role.getName())
                 .build();
     }
@@ -24,6 +25,7 @@ public class RoleMapper {
 
         return Role.builder()
                 .id(roleDTO.getId())
+                .active(roleDTO.getActive())
                 .name(roleDTO.getName())
                 .build();
     }

@@ -21,6 +21,7 @@ public class UserMapper {
         if (user.getRole() != null) {
             roleDTO = RoleDTO.builder()
                     .id(user.getRole().getId())
+                    .active(user.getRole().getActive())
                     .name(user.getRole().getName())
                     .build();
         }
