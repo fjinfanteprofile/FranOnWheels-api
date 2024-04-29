@@ -45,4 +45,38 @@ public class ScheduleServiceImpl implements ScheduleService {
     public void deleteScheduleById(Long id) {
         scheduleRepository.deleteById(id);
     }
+
+    // Activate operation
+    public void activateScheduleById(Long id) {
+        Optional<Schedule> optionalSchedule = scheduleRepository.findById(id);
+        optionalSchedule.ifPresent(schedule -> {
+            schedule.setActive(1);
+            scheduleRepository.save(schedule);
+        });
+    }
+
+    // Deactivate operation
+    public void deactivateScheduleById(Long id) {
+        Optional<Schedule> optionalSchedule = scheduleRepository.findById(id);
+        optionalSchedule.ifPresent(schedule -> {
+            schedule.setActive(0);
+            scheduleRepository.save(schedule);
+        });
+    }
+
+    // Show active schedules
+    public List<ScheduleDTO> getActiveSchedules() {
+        List<Schedule> activeSchedules = scheduleRepository.findByActive(1);
+        return activeSchedules.stream()
+                .map(ScheduleMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    // Show inactive schedules
+    public List<ScheduleDTO> getInactiveSchedules() {
+        List<Schedule> inactiveSchedules = scheduleRepository.findByActive(0);
+        return inactiveSchedules.stream()
+                .map(ScheduleMapper::toDTO)
+                .collect(Collectors.toList());
+    }
 }

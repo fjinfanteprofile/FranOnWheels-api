@@ -17,6 +17,7 @@ public class ScheduleMapper {
                 .dayOfWeek(schedule.getDayOfWeek())
                 .starttime(schedule.getStarttime())
                 .endtime(schedule.getEndtime())
+                .active(schedule.getActive())
                 .build();
 
     }
@@ -33,6 +34,7 @@ public class ScheduleMapper {
                 .dayOfWeek(scheduleDTO.getDayOfWeek())
                 .starttime(scheduleDTO.getStarttime())
                 .endtime(scheduleDTO.getEndtime())
+                .active(scheduleDTO.getActive())
                 .build();
 
     }

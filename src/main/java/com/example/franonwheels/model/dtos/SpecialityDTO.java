@@ -10,4 +10,5 @@ import lombok.Setter;
 public class SpecialityDTO {
     private Long id;
     private String name;
+    private Integer active;
 }

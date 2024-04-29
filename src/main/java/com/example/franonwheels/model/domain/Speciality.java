@@ -32,4 +32,6 @@ public class Speciality {
         this.name = name;
     }
 
+    private Integer active;
+
 }

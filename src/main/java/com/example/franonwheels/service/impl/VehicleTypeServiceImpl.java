@@ -48,4 +48,38 @@ public class VehicleTypeServiceImpl implements VehicleTypeService {
     public void deleteVehicleTypeById(Long id) {
         vehicleTypeRepository.deleteById(id);
     }
+
+    // Activate operation
+    public void activateVehicleTypeById(Long id) {
+        Optional<VehicleType> optionalVehicleType = vehicleTypeRepository.findById(id);
+        optionalVehicleType.ifPresent(vehicleType -> {
+            vehicleType.setActive(1);
+            vehicleTypeRepository.save(vehicleType);
+        });
+    }
+
+    // Deactivate operation
+    public void deactivateVehicleTypeById(Long id) {
+        Optional<VehicleType> optionalVehicleType = vehicleTypeRepository.findById(id);
+        optionalVehicleType.ifPresent(vehicleType -> {
+            vehicleType.setActive(0);
+            vehicleTypeRepository.save(vehicleType);
+        });
+    }
+
+    // Show active vehicle types
+    public List<VehicleTypeDTO> getActiveVehicleTypes() {
+        List<VehicleType> activeVehicleTypes = vehicleTypeRepository.findByActive(1);
+        return activeVehicleTypes.stream()
+                .map(VehicleTypeMapper::vehicleTypeToVehicleTypeDTO)
+                .collect(Collectors.toList());
+    }
+
+    // Show inactive vehicle types
+    public List<VehicleTypeDTO> getInactiveVehicleTypes() {
+        List<VehicleType> inactiveVehicleTypes = vehicleTypeRepository.findByActive(0);
+        return inactiveVehicleTypes.stream()
+                .map(VehicleTypeMapper::vehicleTypeToVehicleTypeDTO)
+                .collect(Collectors.toList());
+    }
 }

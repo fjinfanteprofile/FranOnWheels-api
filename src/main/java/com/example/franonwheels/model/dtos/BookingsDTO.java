@@ -11,4 +11,5 @@ public class BookingsDTO {
 
     private Long classId;
     private Long userId;
+    private Integer active;
 }

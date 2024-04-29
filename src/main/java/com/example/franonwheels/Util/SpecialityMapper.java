@@ -16,6 +16,7 @@ public class SpecialityMapper {
         }
         return SpecialityDTO.builder()
                 .name(speciality.getName())
+                .active(speciality.getActive())
                 .build();
 
     }
@@ -24,6 +25,7 @@ public class SpecialityMapper {
 
         return Speciality.builder()
                 .name(specialityDTO.getName())
+                .active(specialityDTO.getActive())
                 .build();
     }
 

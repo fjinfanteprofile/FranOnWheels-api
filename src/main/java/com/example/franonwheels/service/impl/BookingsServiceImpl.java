@@ -48,4 +48,38 @@ public class BookingsServiceImpl implements BookingsService {
     public void deleteBookingById(Long id) {
         bookingsRepository.deleteById(id);
     }
+
+    // Activate operation
+    public void activateBookingById(Long id) {
+        Optional<Bookings> optionalBooking = bookingsRepository.findById(id);
+        optionalBooking.ifPresent(booking -> {
+            booking.setActive(1);
+            bookingsRepository.save(booking);
+        });
+    }
+
+    // Deactivate operation
+    public void deactivateBookingById(Long id) {
+        Optional<Bookings> optionalBooking = bookingsRepository.findById(id);
+        optionalBooking.ifPresent(booking -> {
+            booking.setActive(0);
+            bookingsRepository.save(booking);
+        });
+    }
+
+    // Show active bookings
+    public List<BookingsDTO> getActiveBookings() {
+        List<Bookings> activeBookings = bookingsRepository.findByActive(1);
+        return activeBookings.stream()
+                .map(BookingsMapper::BookingstoDTO)
+                .collect(Collectors.toList());
+    }
+
+    // Show inactive bookings
+    public List<BookingsDTO> getInactiveBookings() {
+        List<Bookings> inactiveBookings = bookingsRepository.findByActive(0);
+        return inactiveBookings.stream()
+                .map(BookingsMapper::BookingstoDTO)
+                .collect(Collectors.toList());
+    }
 }

@@ -41,4 +41,38 @@ public class SpecialityServiceImpl implements SpecialityService {
     public void deleteSpecialityById(Long id) {
         specialityRepository.deleteById(id);
     }
+
+    // Activate operation
+    public void activateSpecialityById(Long id) {
+        Optional<Speciality> optionalSpeciality = specialityRepository.findById(id);
+        optionalSpeciality.ifPresent(spec -> {
+            spec.setActive(1);
+            specialityRepository.save(spec);
+        });
+    }
+
+    // Deactivate operation
+    public void deactivateSpecialityById(Long id) {
+        Optional<Speciality> optionalSpeciality = specialityRepository.findById(id);
+        optionalSpeciality.ifPresent(spec -> {
+            spec.setActive(0);
+            specialityRepository.save(spec);
+        });
+    }
+
+    // Get active specialities
+    public List<SpecialityDTO> getActiveSpecialities() {
+        List<Speciality> activeSpecialities = specialityRepository.findByActive(1);
+        return activeSpecialities.stream()
+                .map(SpecialityMapper::SpecialitytoDTO)
+                .collect(Collectors.toList());
+    }
+
+    // Get inactive specialities
+    public List<SpecialityDTO> getInactiveSpecialities() {
+        List<Speciality> inactiveSpecialities = specialityRepository.findByActive(0);
+        return inactiveSpecialities.stream()
+                .map(SpecialityMapper::SpecialitytoDTO)
+                .collect(Collectors.toList());
+    }
 }

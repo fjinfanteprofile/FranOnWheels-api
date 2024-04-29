@@ -51,4 +51,38 @@ public class ClassesServiceImpl implements ClassesService {
     public void deleteClassById(Long id) {
         classesRepository.deleteById(id);
     }
+
+    // Activate operation
+    public void activateClassById(Long id) {
+        Optional<Classes> optionalClass = classesRepository.findById(id);
+        optionalClass.ifPresent(class1 -> {
+            class1.setActive(1);
+            classesRepository.save(class1);
+        });
+    }
+
+    // Deactivate operation
+    public void deactivateClassById(Long id) {
+        Optional<Classes> optionalClass = classesRepository.findById(id);
+        optionalClass.ifPresent(class1 -> {
+            class1.setActive(0);
+            classesRepository.save(class1);
+        });
+    }
+
+    // Get active classes
+    public List<ClassesDTO> getActiveClasses() {
+        List<Classes> activeClasses = classesRepository.findByActive(1);
+        return activeClasses.stream()
+                .map(ClassesMapper::ClassestoDTO)
+                .collect(Collectors.toList());
+    }
+
+    // Get inactive classes
+    public List<ClassesDTO> getInactiveClasses() {
+        List<Classes> inactiveClasses = classesRepository.findByActive(0);
+        return inactiveClasses.stream()
+                .map(ClassesMapper::ClassestoDTO)
+                .collect(Collectors.toList());
+    }
 }

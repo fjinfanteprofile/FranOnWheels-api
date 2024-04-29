@@ -15,4 +15,5 @@ public class ClassesDTO {
     private LocalDate date;
     private String timeStart;
     private String timeEnd;
+    private Integer active;
 }

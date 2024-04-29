@@ -115,21 +115,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public void deactivateUserById(Long id) {
-        Optional<User> optionalUser = userRepository.findById(id);
-        optionalUser.ifPresent(user -> {
-            user.setActive(0); // Set active to 0 (inactive)
-            userRepository.save(user);
-        });
-    }
 
-    public void activateUserById(Long id) {
-        Optional<User> optionalUser = userRepository.findById(id);
-        optionalUser.ifPresent(user -> {
-            user.setActive(1); // Set active to 1 (active)
-            userRepository.save(user);
-        });
-    }
 
     public List<UserDTO> getAdminUsers() {
         List<User> adminUsers = userRepository.findByRoleNameIgnoreCaseContaining("ADMIN");
@@ -172,7 +158,21 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
 
     }
+    public void deactivateUserById(Long id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        optionalUser.ifPresent(user -> {
+            user.setActive(0); // Set active to 0 (inactive)
+            userRepository.save(user);
+        });
+    }
 
+    public void activateUserById(Long id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        optionalUser.ifPresent(user -> {
+            user.setActive(1); // Set active to 1 (active)
+            userRepository.save(user);
+        });
+    }
     public List<UserDTO> getActiveUsers() {
         List<User> activeUsers = userRepository.findByActive(1); // Assuming active flag is 1 for active users
         return activeUsers.stream()

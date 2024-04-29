@@ -19,6 +19,7 @@ public class ClassesMapper {
                 .vehicleId(classes.getVehicle().getId())
                 .timeEnd(classes.getTimeEnd())
                 .timeStart(classes.getTimeStart())
+                .active(classes.getActive())
                 .build();
     }
 
@@ -34,6 +35,7 @@ public class ClassesMapper {
                 .vehicle(Vehicle.builder().id(classesDTO.getVehicleId()).build())
                 .timeEnd(classesDTO.getTimeEnd())
                 .timeStart(classesDTO.getTimeStart())
+                .active(classesDTO.getActive())
                 .build();
 
     }

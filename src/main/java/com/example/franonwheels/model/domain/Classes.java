@@ -42,4 +42,6 @@ public class Classes {
 
     @Column(name = "time_end")
     private String timeEnd;
+
+    private Integer active;
 }

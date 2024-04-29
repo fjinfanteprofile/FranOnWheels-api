@@ -11,4 +11,5 @@ public class ScheduleDTO {
     private String dayOfWeek;
     private String starttime;
     private String endtime;
+    private Integer active;
 }

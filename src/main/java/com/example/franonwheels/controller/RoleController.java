@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,20 +27,20 @@ public class RoleController {
 
     private  final RoleServiceImpl roleServiceImpl;
 
-    @PostMapping ("/create")
+    @PostMapping
     public ResponseEntity<RoleDTO> createRole(@RequestBody RoleDTO roleDTO) {
         RoleDTO createdRole = roleServiceImpl.createRole(roleDTO);
         return new ResponseEntity<>(createdRole, HttpStatus.CREATED);
     }
 
-    @GetMapping("/showall")
+    @GetMapping
     public ResponseEntity<List<RoleDTO>> getAllRoles() {
         List<RoleDTO> roles = roleServiceImpl.getAllRoles();
         return new ResponseEntity<>(roles, HttpStatus.OK);
     }
 
-    @GetMapping("/showbyid")
-    public ResponseEntity<RoleDTO> getRoleById(@RequestParam Long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<RoleDTO> getRoleById(@PathVariable Long id) {
         Optional<RoleDTO> role = roleServiceImpl.getRoleById(id);
         if (role.isPresent()) {
             return new ResponseEntity<>(role.get(), HttpStatus.OK);
@@ -47,31 +48,31 @@ public class RoleController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<Optional<RoleDTO>> updateUser(@RequestBody RoleDTO roleDTO, @RequestParam Long id) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Optional<RoleDTO>> updateUser(@RequestBody RoleDTO roleDTO, @PathVariable Long id) {
         Optional<RoleDTO> updatedUser = roleServiceImpl.updateRole(roleDTO,id);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<Void> deactivateRoleById(@RequestParam Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deactivateRoleById(@PathVariable Long id) {
         roleServiceImpl.deactivateRoleById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PatchMapping("/activate")
-    public ResponseEntity<Void> activateRoleById(@RequestParam Long id) {
+    @PatchMapping("activate/{id}")
+    public ResponseEntity<Void> activateRoleById(@PathVariable Long id) {
         roleServiceImpl.activateRoleById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/showactive")
+    @GetMapping("/active")
     public ResponseEntity<List<RoleDTO>> getActiveRoles() {
         List<RoleDTO> activeRoles = roleServiceImpl.getActiveRoles();
         return new ResponseEntity<>(activeRoles, HttpStatus.OK);
     }
 
-    @GetMapping("/showinactive")
+    @GetMapping("/inactive")
     public ResponseEntity<List<RoleDTO>> getInactiveRoles() {
         List<RoleDTO> inactiveRoles = roleServiceImpl.getInactiveRoles();
         return new ResponseEntity<>(inactiveRoles, HttpStatus.OK);

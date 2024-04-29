@@ -1,6 +1,5 @@
 package com.example.franonwheels.controller;
 
-import com.example.franonwheels.model.dtos.UserDTO;
 import com.example.franonwheels.model.dtos.VehicleDTO;
 import com.example.franonwheels.service.impl.VehicleServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -18,20 +17,20 @@ public class VehicleController {
 
     private final VehicleServiceImpl vehicleServiceImpl;
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<VehicleDTO> createVehicle(@RequestBody VehicleDTO vehicleDTO) {
         VehicleDTO createdVehicle = vehicleServiceImpl.createVehicle(vehicleDTO);
         return new ResponseEntity<>(createdVehicle, HttpStatus.CREATED);
     }
 
-    @GetMapping("/showall")
+    @GetMapping
     public ResponseEntity<List<VehicleDTO>> getAllVehicles() {
         List<VehicleDTO> vehicles = vehicleServiceImpl.getAllVehicles();
         return new ResponseEntity<>(vehicles, HttpStatus.OK);
     }
 
-    @GetMapping("/showbyid")
-    public ResponseEntity<VehicleDTO> getVehicleById(@RequestParam Long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<VehicleDTO> getVehicleById(@PathVariable Long id) {
         Optional<VehicleDTO> vehicle = vehicleServiceImpl.getVehicleById(id);
         return vehicle.map(vehicleDTO -> new ResponseEntity<>(vehicleDTO, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
