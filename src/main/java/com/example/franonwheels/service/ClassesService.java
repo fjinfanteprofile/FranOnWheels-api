@@ -8,13 +8,13 @@ import java.util.Optional;
 
 public interface ClassesService {
 
-    ClassesDTO createClass(ClassesDTO classesDTO);
+    ClassesDTO createClass(ClassesDTO classesDTO, Long id);
 
     List<ClassesDTO> getAllClasses();
 
     Optional<ClassesDTO> getClassById(Long id);
 
-    ClassesDTO updateClass(ClassesDTO classesDTO);
+    ClassesDTO updateClass(ClassesDTO classesDTO, Long id);
 
     void deleteClassById(Long id);
 }

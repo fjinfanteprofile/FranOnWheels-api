@@ -149,9 +149,9 @@ private void createSpecialities() {
     private void createVehicleTypes() {
         // Check if vehicle types already exist in the database
         if (vehicleTypeRepository.count() == 0) {
-            vehicleTypeRepository.save(VehicleType.builder().name("Car").build());
-            vehicleTypeRepository.save(VehicleType.builder().name("Motorcycle").build());
-            vehicleTypeRepository.save(VehicleType.builder().name("Truck").build());
+            vehicleTypeRepository.save(VehicleType.builder().name("Car").active(1).build());
+            vehicleTypeRepository.save(VehicleType.builder().name("Motorcycle").active(1).build());
+            vehicleTypeRepository.save(VehicleType.builder().name("Truck").active(1).build());
 
         }
     }
@@ -202,6 +202,7 @@ private void createSpecialities() {
                     .starttime("10:00")
                     .endtime("14:00")
                     .date(LocalDate.now())
+                    .active(1)
                     .build();
             scheduleRepository.save(morningSchedule);
 
@@ -211,6 +212,7 @@ private void createSpecialities() {
                     .starttime("17:00")
                     .endtime("22:00")
                     .date(LocalDate.now())
+                    .active(1)
                     .build();
             scheduleRepository.save(eveningSchedule);
         }
@@ -233,6 +235,7 @@ private void createSpecialities() {
                     .date(scheduleDate)
                     .timeStart(randomSchedule.getStarttime())
                     .timeEnd(randomSchedule.getEndtime())
+                    .active(1)
                     .build();
 
             Classes savedClass = classesRepository.save(classEntity);
@@ -241,6 +244,7 @@ private void createSpecialities() {
             Bookings booking = Bookings.builder()
                     .classes(savedClass)
                     .user(user)
+                    .active(1)
                     .build();
 
             bookingsRepository.save(booking);

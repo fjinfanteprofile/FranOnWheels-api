@@ -1,5 +1,6 @@
 package com.example.franonwheels.controller;
 
+import com.example.franonwheels.model.dtos.BookingsDTO;
 import com.example.franonwheels.model.dtos.ClassesDTO;
 import com.example.franonwheels.service.impl.ClassesServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -26,10 +27,21 @@ public class ClassesController {
     private final ClassesServiceImpl classesServiceImpl;
 
     // Create a class
-    @PostMapping
-    public ResponseEntity<ClassesDTO> createClass(@RequestBody ClassesDTO classesDTO) {
-        ClassesDTO createdClass = classesServiceImpl.createClass(classesDTO);
-        return new ResponseEntity<>(createdClass, HttpStatus.CREATED);
+    @PostMapping("/{id}")
+    public ResponseEntity<ClassesDTO> createClass(@RequestBody ClassesDTO classesDTO, @PathVariable Long id) {
+
+        if (id == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        classesDTO.setUserId(id);
+
+        ClassesDTO createdClass = classesServiceImpl.createClass(classesDTO, id); // Pass userId to the service method
+
+        if (createdClass != null) {
+            return new ResponseEntity<>(createdClass, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     // Get all classes
@@ -50,7 +62,7 @@ public class ClassesController {
     // Update a class
     @PutMapping("/{id}")
     public ResponseEntity<ClassesDTO> updateClass(@RequestBody ClassesDTO classesDTO, @PathVariable Long id) {
-        ClassesDTO updatedClass = classesServiceImpl.updateClass(classesDTO);
+        ClassesDTO updatedClass = classesServiceImpl.updateClass(classesDTO, id);
         return new ResponseEntity<>(updatedClass, HttpStatus.OK);
     }
 

@@ -31,6 +31,7 @@ public class UserMapper {
             specialityDTO = SpecialityDTO.builder()
                     .id(user.getSpeciality().getId())
                     .name(user.getSpeciality().getName())
+                    .active(user.getActive())
                     .build();
         }
         return UserDTO.builder()

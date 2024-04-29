@@ -11,9 +11,11 @@ import java.util.Date;
 @Setter
 @Builder
 public class ClassesDTO {
+    private Long id;
     private Long vehicleId;
     private LocalDate date;
     private String timeStart;
     private String timeEnd;
     private Integer active;
+    private Long userId;
 }

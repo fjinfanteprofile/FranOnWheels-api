@@ -47,8 +47,16 @@ public class VehicleTypeController {
 
     @PutMapping("/{id}")
     public ResponseEntity<VehicleTypeDTO> updateVehicleType(@RequestBody VehicleTypeDTO vehicleTypeDTO, @PathVariable Long id) {
-        VehicleTypeDTO updatedVehicleType = vehicleTypeServiceImpl.updateVehicleType(vehicleTypeDTO);
-        return new ResponseEntity<>(updatedVehicleType, HttpStatus.OK);
+        // Pass both vehicleTypeDTO and id to the service method
+        Optional<VehicleTypeDTO> updatedVehicleTypeOptional = vehicleTypeServiceImpl.updateVehicleType(vehicleTypeDTO, id);
+
+        // Check if the vehicle type was updated successfully
+        if (updatedVehicleTypeOptional.isPresent()) {
+            return new ResponseEntity<>(updatedVehicleTypeOptional.get(), HttpStatus.OK);
+        } else {
+            // Handle the case where the vehicle type with the specified ID does not exist
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("/{id}")

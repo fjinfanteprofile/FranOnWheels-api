@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -39,7 +38,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> getUserById(@RequestParam Long id) {
+    public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
         Optional<UserDTO> user = userServiceImpl.getUserById(id);
         if (user.isPresent()) {
             return new ResponseEntity<>(user.get(), HttpStatus.OK);
@@ -49,7 +48,7 @@ public class UserController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<Optional<UserDTO>> updateUser(@RequestBody UserDTO userDTO, @RequestParam Long id) {
+    public ResponseEntity<Optional<UserDTO>> updateUser(@RequestBody UserDTO userDTO, @PathVariable Long id) {
         Optional<UserDTO> updatedUser = userServiceImpl.updateUser(userDTO, id);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
@@ -60,18 +59,18 @@ public class UserController {
         return new ResponseEntity<>(adminUsers, HttpStatus.OK);
     }
 
-    @GetMapping("/showbyname")
-    public ResponseEntity<List<UserDTO>> getUserByUsername(@RequestParam String name) {
-        List<UserDTO> user = userServiceImpl.getUserByUsername(name);
+    @GetMapping("/username/{username}")
+    public ResponseEntity<List<UserDTO>> getUserByUsername(@PathVariable String username) {
+        List<UserDTO> user = userServiceImpl.getUserByUsername(username);
         if (!user.isEmpty()) {
             return new ResponseEntity<>(user, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/rolename")
-    public ResponseEntity<List<UserDTO>> getUsersByRoleName(@RequestParam String roleName) {
-        List<UserDTO> users = userServiceImpl.getUsersByRoleName(roleName);
+    @GetMapping("/rolename/{rolename}")
+    public ResponseEntity<List<UserDTO>> getUsersByRoleName(@PathVariable String rolename) {
+        List<UserDTO> users = userServiceImpl.getUsersByRoleName(rolename);
         if (!users.isEmpty()) {
             return new ResponseEntity<>(users, HttpStatus.OK);
         }
@@ -99,14 +98,14 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
     }
-    @PatchMapping("/activate")
-    public ResponseEntity<Void> activateUserById(@RequestParam Long id) {
+    @PatchMapping("/activate/{id}")
+    public ResponseEntity<Void> activateUserById(@PathVariable Long id) {
         userServiceImpl.activateUserById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<Void> deactivateUserById(@RequestParam Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deactivateUserById(@PathVariable Long id) {
         userServiceImpl.deactivateUserById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

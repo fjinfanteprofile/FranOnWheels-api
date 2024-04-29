@@ -161,7 +161,7 @@ public class UserServiceImpl implements UserService {
     public void deactivateUserById(Long id) {
         Optional<User> optionalUser = userRepository.findById(id);
         optionalUser.ifPresent(user -> {
-            user.setActive(0); // Set active to 0 (inactive)
+            user.setActive(0);
             userRepository.save(user);
         });
     }
@@ -169,7 +169,7 @@ public class UserServiceImpl implements UserService {
     public void activateUserById(Long id) {
         Optional<User> optionalUser = userRepository.findById(id);
         optionalUser.ifPresent(user -> {
-            user.setActive(1); // Set active to 1 (active)
+            user.setActive(1);
             userRepository.save(user);
         });
     }

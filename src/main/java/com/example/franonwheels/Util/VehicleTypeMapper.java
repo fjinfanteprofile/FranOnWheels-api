@@ -25,6 +25,7 @@ public class VehicleTypeMapper {
         return VehicleType.builder()
                 .id(vehicleTypeDTO.getId()) // Set the ID
                 .name(vehicleTypeDTO.getName())
+                .active(vehicleTypeDTO.getActive())
                 .build();
     }
 }

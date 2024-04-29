@@ -39,9 +39,19 @@ public class VehicleTypeServiceImpl implements VehicleTypeService {
     }
 
     // Update operation
-    public VehicleTypeDTO updateVehicleType(VehicleTypeDTO vehicleTypeDTO) {
-        return VehicleTypeMapper.vehicleTypeToVehicleTypeDTO(this.vehicleTypeRepository.save(VehicleTypeMapper.vehicleTypeDTOToEntity(vehicleTypeDTO)));
+    public Optional<VehicleTypeDTO> updateVehicleType(VehicleTypeDTO vehicleTypeDTO, Long id) {
 
+        Optional<VehicleType> optionalVehicleType = vehicleTypeRepository.findById(id);
+        if (optionalVehicleType.isPresent()) {
+            VehicleType existingVehicleType = optionalVehicleType.get();
+            existingVehicleType.setName(vehicleTypeDTO.getName());
+            existingVehicleType = vehicleTypeRepository.save(existingVehicleType);
+
+            return Optional.of(VehicleTypeMapper.vehicleTypeToVehicleTypeDTO(existingVehicleType));
+        } else {
+            // If the vehicle type with the specified ID does not exist, return an empty optional
+            return Optional.empty();
+        }
     }
 
     // Delete operation
