@@ -2,8 +2,12 @@ package com.example.franonwheels.service.impl;
 
 import com.example.franonwheels.Util.BookingsMapper;
 import com.example.franonwheels.model.domain.Bookings;
+import com.example.franonwheels.model.domain.Classes;
+import com.example.franonwheels.model.domain.User;
 import com.example.franonwheels.model.dtos.BookingsDTO;
 import com.example.franonwheels.repository.BookingsRepository;
+import com.example.franonwheels.repository.ClassesRepository;
+import com.example.franonwheels.repository.UserRepository;
 import com.example.franonwheels.service.BookingsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,10 +21,12 @@ import java.util.stream.Collectors;
 public class BookingsServiceImpl implements BookingsService {
 
     private final BookingsRepository bookingsRepository;
+    private final ClassesRepository classesRepository;
+    private final UserRepository userRepository;
 
     // Create operation
     public BookingsDTO createBooking(BookingsDTO bookingDTO) {
-        return BookingsMapper.BookingstoDTO(bookingsRepository.save(BookingsMapper.BookingsDTOtoEntity(bookingDTO)));
+        return BookingsMapper.BookingstoDTO(this.bookingsRepository.save(BookingsMapper.BookingsDTOtoEntity(bookingDTO)));
     }
 
     // Read operations
@@ -40,8 +46,30 @@ public class BookingsServiceImpl implements BookingsService {
     }
 
     // Update operation
-    public BookingsDTO updateBooking(BookingsDTO bookingsDTO) {
-        return BookingsMapper.BookingstoDTO(this.bookingsRepository.save(BookingsMapper.BookingsDTOtoEntity(bookingsDTO)));
+    public Optional<BookingsDTO> updateBooking(BookingsDTO bookingsDTO, Long id) {
+        Optional<Bookings> optionalBooking = bookingsRepository.findById(id);
+        if (optionalBooking.isPresent()) {
+            Bookings existingBooking = optionalBooking.get();
+
+            Optional<Classes> optionalClasses = classesRepository.findById(bookingsDTO.getClassId());
+            Optional<User> optionalUser = userRepository.findById(bookingsDTO.getUserId());
+
+            if (optionalClasses.isPresent() && optionalUser.isPresent()) {
+                Classes classes = optionalClasses.get();
+                User user = optionalUser.get();
+
+                existingBooking.setClasses(classes);
+                existingBooking.setUser(user);
+
+                Bookings updatedBooking = bookingsRepository.save(existingBooking);
+                return Optional.of(BookingsMapper.BookingstoDTO(updatedBooking));
+            } else {
+
+                throw new IllegalArgumentException("Classes or User not found for the provided IDs");
+            }
+        } else {
+            throw new IllegalArgumentException("Booking not found for the provided ID");
+        }
     }
 
     // Delete operation

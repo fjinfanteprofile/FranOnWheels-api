@@ -15,6 +15,7 @@ public class BookingsMapper {
 
         }
         return BookingsDTO.builder()
+                .id(bookings.getId())
                 .classId(bookings.getClasses().getId())
                 .userId(bookings.getUser().getId())
                 .active(bookings.getActive())
@@ -30,6 +31,8 @@ public class BookingsMapper {
 
         }
         return Bookings.builder()
+                .id(bookingsDTO.getId())
+                .active(bookingsDTO.getActive())
                 .classes(Classes.builder()
                 .id(bookingsDTO.getClassId())
                 .active(bookingsDTO.getActive())

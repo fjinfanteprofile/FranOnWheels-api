@@ -6,7 +6,9 @@ import com.example.franonwheels.model.dtos.SpecialityDTO;
 import com.example.franonwheels.repository.SpecialityRepository;
 import com.example.franonwheels.service.SpecialityService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,8 +36,20 @@ public class SpecialityServiceImpl implements SpecialityService {
         return speciality.map(SpecialityMapper::SpecialitytoDTO);
     }
 
-    public SpecialityDTO updateSpeciality(SpecialityDTO specialityDTO) {
-        return SpecialityMapper.SpecialitytoDTO(this.specialityRepository.save(SpecialityMapper.SpecialityDTOtoEntity(specialityDTO)));
+    public Optional<SpecialityDTO> updateSpeciality(SpecialityDTO specialityDTO, Long id) {
+
+        Optional<Speciality> optionalSpeciality = specialityRepository.findById(id);
+        if (optionalSpeciality.isPresent()){
+
+            Speciality existingSpeciality = optionalSpeciality.get();
+            existingSpeciality.setName(specialityDTO.getName());
+            Speciality updatedSpeciality = specialityRepository.save(existingSpeciality);
+            return Optional.of(SpecialityMapper.SpecialitytoDTO(updatedSpeciality));
+
+
+        }else {throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Speciality not found with ID: " + id);
+        }
+
     }
 
     public void deleteSpecialityById(Long id) {

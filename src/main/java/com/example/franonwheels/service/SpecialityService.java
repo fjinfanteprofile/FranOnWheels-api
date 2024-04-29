@@ -13,7 +13,7 @@ public interface SpecialityService {
 
     Optional<SpecialityDTO> getSpecialityById(Long id);
 
-    SpecialityDTO updateSpeciality(SpecialityDTO specialityDTO);
+    Optional<SpecialityDTO> updateSpeciality(SpecialityDTO specialityDTO,Long id);
 
     void deleteSpecialityById(Long id);
 }

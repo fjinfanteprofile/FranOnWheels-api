@@ -1,5 +1,6 @@
 package com.example.franonwheels.controller;
 
+import com.example.franonwheels.model.dtos.RoleDTO;
 import com.example.franonwheels.model.dtos.SpecialityDTO;
 import com.example.franonwheels.service.impl.SpecialityServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -49,8 +50,8 @@ public class SpecialityController {
 
     // Update a speciality
     @PutMapping("/{id}")
-    public ResponseEntity<SpecialityDTO> updateSpeciality(@RequestBody SpecialityDTO specialityDTO, @PathVariable Long id) {
-        SpecialityDTO updatedSpeciality = specialityServiceImpl.updateSpeciality(specialityDTO);
+    public ResponseEntity<Optional<SpecialityDTO>> updateSpeciality(@RequestBody SpecialityDTO specialityDTO, @PathVariable Long id) {
+        Optional<SpecialityDTO> updatedSpeciality = specialityServiceImpl.updateSpeciality(specialityDTO,id);
         return new ResponseEntity<>(updatedSpeciality, HttpStatus.OK);
     }
 
