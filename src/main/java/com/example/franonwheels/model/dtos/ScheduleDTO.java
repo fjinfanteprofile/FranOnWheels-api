@@ -8,7 +8,9 @@ import lombok.Setter;
 @Setter
 @Builder
 public class ScheduleDTO {
+    private Long id;
     private String dayOfWeek;
     private String starttime;
     private String endtime;
+    private Integer active;
 }

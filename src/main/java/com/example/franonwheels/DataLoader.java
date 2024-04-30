@@ -21,6 +21,7 @@ import jakarta.annotation.PostConstruct;
 
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -79,8 +80,8 @@ public class DataLoader {
     private void createRoles() {
         // Check if roles already exist in the database
         if (roleRepository.count() == 0) {
-            roleRepository.save(new Role("USER")); // Save ROLE_USER
-            roleRepository.save(new Role("ADMIN")); // Save ROLE_ADMIN
+            roleRepository.save((Role) Role.builder().name("USER").active(1).build()); // Save ROLE_USER
+            roleRepository.save((Role) Role.builder().name("ADMIN").active(1).build()); // Save ROLE_ADMIN
         }
     }
 
@@ -90,21 +91,27 @@ public class DataLoader {
 private void createSpecialities() {
     // Check if specialities already exist in the database
     if (specialityRepository.count() == 0) {
-        specialityRepository.save(new Speciality("A1")); // Save Speciality A1
-        specialityRepository.save(new Speciality("A2")); // Save Speciality A2
-        specialityRepository.save(new Speciality("AM")); // Save Speciality AM
-        specialityRepository.save(new Speciality("A")); // Save Speciality A
-        specialityRepository.save(new Speciality("B1")); // Save Speciality B1
-        specialityRepository.save(new Speciality("B")); // Save Speciality B
-        specialityRepository.save(new Speciality("C1")); // Save Speciality C1
-        specialityRepository.save(new Speciality("C")); // Save Speciality C
-        specialityRepository.save(new Speciality("D1")); // Save Speciality D1
-        specialityRepository.save(new Speciality("D")); // Save Speciality D
-        specialityRepository.save(new Speciality("BE")); // Save Speciality BE
-        specialityRepository.save(new Speciality("C1E")); // Save Speciality C1E
-        specialityRepository.save(new Speciality("CE")); // Save Speciality CE
+        Speciality specialityA1 = Speciality.builder().name("A1").active(1).build();
+        Speciality specialityA2 = Speciality.builder().name("A2").active(1).build();
+        Speciality specialityAM = Speciality.builder().name("AM").active(1).build();
+        Speciality specialityA = Speciality.builder().name("A").active(1).build();
+        Speciality specialityB1 = Speciality.builder().name("B1").active(1).build();
+        Speciality specialityB = Speciality.builder().name("B").active(1).build();
+        Speciality specialityC1 = Speciality.builder().name("C1").active(1).build();
+        Speciality specialityC = Speciality.builder().name("C").active(1).build();
+        Speciality specialityD1 = Speciality.builder().name("D1").active(1).build();
+        Speciality specialityD = Speciality.builder().name("D").active(1).build();
+        Speciality specialityBE = Speciality.builder().name("BE").active(1).build();
+        Speciality specialityC1E = Speciality.builder().name("C1E").active(1).build();
+        Speciality specialityCE = Speciality.builder().name("CE").active(1).build();
+
+        // Save specialities
+        specialityRepository.saveAll(Arrays.asList(specialityA1, specialityA2, specialityAM, specialityA,
+                specialityB1, specialityB, specialityC1, specialityC, specialityD1, specialityD,
+                specialityBE, specialityC1E, specialityCE));
     }
 }
+
 
 
 //      Inserts users into the database with specified roles and specialities.
@@ -116,6 +123,7 @@ private void createSpecialities() {
 
         for (int i = 0; i < 10; i++) {
             User user = User.builder()
+                    .active(1)
                     .name("User" + i)
                     .lastName("LastName" + i)
                     .dni(generateRandomDNI())
@@ -148,9 +156,9 @@ private void createSpecialities() {
     private void createVehicleTypes() {
         // Check if vehicle types already exist in the database
         if (vehicleTypeRepository.count() == 0) {
-            vehicleTypeRepository.save(VehicleType.builder().name("Car").build());
-            vehicleTypeRepository.save(VehicleType.builder().name("Motorcycle").build());
-            vehicleTypeRepository.save(VehicleType.builder().name("Truck").build());
+            vehicleTypeRepository.save(VehicleType.builder().name("Car").active(1).build());
+            vehicleTypeRepository.save(VehicleType.builder().name("Motorcycle").active(1).build());
+            vehicleTypeRepository.save(VehicleType.builder().name("Truck").active(1).build());
 
         }
     }
@@ -164,6 +172,7 @@ private void createSpecialities() {
                     .licensePlate(generateRandomLicensePlate())
                     .gearbox("Automatic") // Assuming all vehicles have automatic gearbox for simplicity
                     .displacementCc(random.nextInt(3000) + 1000) // Random displacement between 1000 and 3999 cc
+                    .active(1)
                     .build();
             vehicleRepository.save(vehicle);
         }
@@ -200,6 +209,7 @@ private void createSpecialities() {
                     .starttime("10:00")
                     .endtime("14:00")
                     .date(LocalDate.now())
+                    .active(1)
                     .build();
             scheduleRepository.save(morningSchedule);
 
@@ -209,6 +219,7 @@ private void createSpecialities() {
                     .starttime("17:00")
                     .endtime("22:00")
                     .date(LocalDate.now())
+                    .active(1)
                     .build();
             scheduleRepository.save(eveningSchedule);
         }
@@ -231,6 +242,7 @@ private void createSpecialities() {
                     .date(scheduleDate)
                     .timeStart(randomSchedule.getStarttime())
                     .timeEnd(randomSchedule.getEndtime())
+                    .active(1)
                     .build();
 
             Classes savedClass = classesRepository.save(classEntity);
@@ -239,7 +251,11 @@ private void createSpecialities() {
             Bookings booking = Bookings.builder()
                     .classes(savedClass)
                     .user(user)
+                    .active(1)
                     .build();
+
+            booking.setId(savedClass.getId());
+            booking.setId(user.getId());
 
             bookingsRepository.save(booking);
         }

@@ -8,10 +8,12 @@ import lombok.Setter;
 @Setter
 @Builder
 public class VehicleDTO {
+    private Long id;
     private VehicleTypeDTO type;
     private String model;
-    private int year;
+    private Integer year;
     private String licensePlate;
     private String gearbox;
-    private int displacementCc;
+    private Integer displacementCc;
+    private Integer active;
 }

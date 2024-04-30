@@ -39,13 +39,57 @@ public class VehicleTypeServiceImpl implements VehicleTypeService {
     }
 
     // Update operation
-    public VehicleTypeDTO updateVehicleType(VehicleTypeDTO vehicleTypeDTO) {
-        return VehicleTypeMapper.vehicleTypeToVehicleTypeDTO(this.vehicleTypeRepository.save(VehicleTypeMapper.vehicleTypeDTOToEntity(vehicleTypeDTO)));
+    public Optional<VehicleTypeDTO> updateVehicleType(VehicleTypeDTO vehicleTypeDTO, Long id) {
 
+        Optional<VehicleType> optionalVehicleType = vehicleTypeRepository.findById(id);
+        if (optionalVehicleType.isPresent()) {
+            VehicleType existingVehicleType = optionalVehicleType.get();
+            existingVehicleType.setName(vehicleTypeDTO.getName());
+            existingVehicleType = vehicleTypeRepository.save(existingVehicleType);
+
+            return Optional.of(VehicleTypeMapper.vehicleTypeToVehicleTypeDTO(existingVehicleType));
+        } else {
+            // If the vehicle type with the specified ID does not exist, return an empty optional
+            return Optional.empty();
+        }
     }
 
     // Delete operation
     public void deleteVehicleTypeById(Long id) {
         vehicleTypeRepository.deleteById(id);
+    }
+
+    // Activate operation
+    public void activateVehicleTypeById(Long id) {
+        Optional<VehicleType> optionalVehicleType = vehicleTypeRepository.findById(id);
+        optionalVehicleType.ifPresent(vehicleType -> {
+            vehicleType.setActive(1);
+            vehicleTypeRepository.save(vehicleType);
+        });
+    }
+
+    // Deactivate operation
+    public void deactivateVehicleTypeById(Long id) {
+        Optional<VehicleType> optionalVehicleType = vehicleTypeRepository.findById(id);
+        optionalVehicleType.ifPresent(vehicleType -> {
+            vehicleType.setActive(0);
+            vehicleTypeRepository.save(vehicleType);
+        });
+    }
+
+    // Show active vehicle types
+    public List<VehicleTypeDTO> getActiveVehicleTypes() {
+        List<VehicleType> activeVehicleTypes = vehicleTypeRepository.findByActive(1);
+        return activeVehicleTypes.stream()
+                .map(VehicleTypeMapper::vehicleTypeToVehicleTypeDTO)
+                .collect(Collectors.toList());
+    }
+
+    // Show inactive vehicle types
+    public List<VehicleTypeDTO> getInactiveVehicleTypes() {
+        List<VehicleType> inactiveVehicleTypes = vehicleTypeRepository.findByActive(0);
+        return inactiveVehicleTypes.stream()
+                .map(VehicleTypeMapper::vehicleTypeToVehicleTypeDTO)
+                .collect(Collectors.toList());
     }
 }

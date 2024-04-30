@@ -35,4 +35,6 @@ public class Schedule {
     private String endtime;
 
     private LocalDate date;
+
+    private Integer active;
 }

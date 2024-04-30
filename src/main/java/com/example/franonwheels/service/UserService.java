@@ -1,9 +1,12 @@
 package com.example.franonwheels.service;
 
+import com.example.franonwheels.Util.UserMapper;
+import com.example.franonwheels.model.domain.User;
 import com.example.franonwheels.model.dtos.UserDTO;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public interface UserService {
 
@@ -15,7 +18,9 @@ public interface UserService {
 
     Optional<UserDTO> updateUser(UserDTO userDTO, Long id);
 
-    void deleteUserById(Long id);
+    public void deactivateUserById(Long id);
+
+    public void activateUserById(Long id);
 
     List<UserDTO> getAdminUsers();
 
@@ -26,4 +31,8 @@ public interface UserService {
     public List<UserDTO> getUsersByAgeGreaterThan(int age);
 
     public List<UserDTO> findByAgeLessThan(int age);
+
+    public List<UserDTO> getActiveUsers();
+
+    public List<UserDTO> getInactiveUsers();
 }

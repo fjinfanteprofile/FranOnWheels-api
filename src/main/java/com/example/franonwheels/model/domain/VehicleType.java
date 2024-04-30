@@ -25,4 +25,6 @@ public class VehicleType {
     private Long id;
 
     private String name;
+
+    private Integer active;
 }

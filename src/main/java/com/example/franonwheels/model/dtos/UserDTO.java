@@ -19,4 +19,5 @@ public class UserDTO {
     private Integer age;
     private RoleDTO role;
     private SpecialityDTO speciality;
+    private Integer active;
 }

@@ -9,6 +9,8 @@ import lombok.Setter;
 @Builder
 public class BookingsDTO {
 
+    private Long id;
     private Long classId;
     private Long userId;
+    private Integer active;
 }

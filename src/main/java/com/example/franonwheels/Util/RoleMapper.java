@@ -8,12 +8,11 @@ public class RoleMapper {
     public static RoleDTO roletoDTO(Role role) {
 
         if (role == null) {
-
             return null;
-
         }
-
         return RoleDTO.builder()
+                .id(role.getId())
+                .active(role.getActive())
                 .name(role.getName())
                 .build();
     }
@@ -21,15 +20,14 @@ public class RoleMapper {
     public static Role dtoToRole(RoleDTO roleDTO) {
 
         if (roleDTO == null) {
-
             return null;
-
         }
 
         return Role.builder()
+                .id(roleDTO.getId())
+                .active(roleDTO.getActive())
                 .name(roleDTO.getName())
                 .build();
-
     }
 
 }

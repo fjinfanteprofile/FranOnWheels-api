@@ -27,6 +27,7 @@ public class Role {
     @Column(unique = true)
     private String name;
 
+    private Integer active;
 
     public Role(String name) {
         this.name = name;

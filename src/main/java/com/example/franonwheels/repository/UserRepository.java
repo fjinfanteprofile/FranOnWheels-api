@@ -36,4 +36,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     // Finds users whose age is less than the specified age
     List<User> findByAgeLessThan(@Param("Age") Integer Age);
 
+    List<User> findByRoleId(Long id);
+
+    List<User> findByActive(Integer active);
 }

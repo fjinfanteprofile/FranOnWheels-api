@@ -2,24 +2,30 @@ package com.example.franonwheels.Util;
 
 import com.example.franonwheels.model.domain.VehicleType;
 import com.example.franonwheels.model.dtos.VehicleTypeDTO;
+import lombok.experimental.UtilityClass;
 
+@UtilityClass
 public class VehicleTypeMapper {
 
-    public static VehicleTypeDTO vehicleTypeToVehicleTypeDTO(VehicleType vehicleType) {
+    public VehicleTypeDTO vehicleTypeToVehicleTypeDTO(VehicleType vehicleType) {
         if (vehicleType == null) {
             return null;
         }
         return VehicleTypeDTO.builder()
+                .id(vehicleType.getId())
                .name(vehicleType.getName())
+                .active(vehicleType.getActive())
                .build();
     }
 
-    public static VehicleType vehicleTypeDTOToEntity(VehicleTypeDTO vehicleTypeDTO) {
+    public VehicleType vehicleTypeDTOToEntity(VehicleTypeDTO vehicleTypeDTO) {
         if (vehicleTypeDTO == null) {
             return null;
         }
         return VehicleType.builder()
-               .name(vehicleTypeDTO.getName())
-               .build();
+                .id(vehicleTypeDTO.getId()) // Set the ID
+                .name(vehicleTypeDTO.getName())
+                .active(vehicleTypeDTO.getActive())
+                .build();
     }
 }

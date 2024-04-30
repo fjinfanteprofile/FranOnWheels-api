@@ -15,8 +15,10 @@ public class BookingsMapper {
 
         }
         return BookingsDTO.builder()
+                .id(bookings.getId())
                 .classId(bookings.getClasses().getId())
                 .userId(bookings.getUser().getId())
+                .active(bookings.getActive())
                 .build();
 
     }
@@ -29,7 +31,16 @@ public class BookingsMapper {
 
         }
         return Bookings.builder()
-                .classes(Classes.builder().id(bookingsDTO.getClassId()).build())
-                .user(User.builder().id(bookingsDTO.getUserId()).build()).build();
+                .id(bookingsDTO.getId())
+                .active(bookingsDTO.getActive())
+                .classes(Classes.builder()
+                .id(bookingsDTO.getClassId())
+                .active(bookingsDTO.getActive())
+                .build())
+                .user(User.builder()
+                .id(bookingsDTO.getUserId())
+                .active(bookingsDTO.getActive())
+                .build())
+                .build();
     }
 }

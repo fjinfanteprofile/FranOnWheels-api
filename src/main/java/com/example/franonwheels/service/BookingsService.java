@@ -14,7 +14,7 @@ public interface BookingsService {
 
     Optional<BookingsDTO> getBookingById(Long id);
 
-    BookingsDTO updateBooking(BookingsDTO booking);
+    Optional<BookingsDTO> updateBooking(BookingsDTO booking, Long id);
 
     void deleteBookingById(Long id);
 }

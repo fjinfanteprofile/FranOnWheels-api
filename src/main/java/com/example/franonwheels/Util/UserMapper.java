@@ -21,6 +21,7 @@ public class UserMapper {
         if (user.getRole() != null) {
             roleDTO = RoleDTO.builder()
                     .id(user.getRole().getId())
+                    .active(user.getRole().getActive())
                     .name(user.getRole().getName())
                     .build();
         }
@@ -30,6 +31,7 @@ public class UserMapper {
             specialityDTO = SpecialityDTO.builder()
                     .id(user.getSpeciality().getId())
                     .name(user.getSpeciality().getName())
+                    .active(user.getActive())
                     .build();
         }
         return UserDTO.builder()
@@ -44,6 +46,7 @@ public class UserMapper {
                 .age(user.getAge())
                 .role(roleDTO)
                 .speciality(specialityDTO)
+                .active(user.getActive())
                 .build();
     }
 
@@ -64,6 +67,7 @@ public class UserMapper {
                 .role(RoleMapper.dtoToRole(userDTO.getRole()))
                 .speciality(SpecialityMapper.SpecialityDTOtoEntity(userDTO.getSpeciality()))
                 .password(userDTO.getPassword())
+                .active(userDTO.getActive())
                 .build();
     }
 }

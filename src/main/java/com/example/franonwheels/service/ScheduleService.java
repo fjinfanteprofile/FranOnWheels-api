@@ -14,7 +14,7 @@ public interface ScheduleService {
 
     Optional<ScheduleDTO> getScheduleById(Long id);
 
-    ScheduleDTO updateSchedule(ScheduleDTO scheduleDTO);
+    Optional<ScheduleDTO> updateSchedule(ScheduleDTO scheduleDTO, Long id);
 
     void deleteScheduleById(Long id);
 }

@@ -126,7 +126,8 @@ public class UserServiceUnitTest {
 
         Mockito.when(this.userRepositoryMock.save(Mockito.any(User.class))).thenReturn(userList.get(0));
 
-        this.userServiceImplMock.updateUser(UserMapper.userConvertToDTO(userList.get(0)));
+        this.userServiceImplMock.updateUser(UserMapper.userConvertToDTO(userList.get(0)), userList.get(0).getId());
+
 
         Mockito.verify(this.userRepositoryMock, Mockito.times(1)).save(Mockito.any(User.class));
 
@@ -151,11 +152,11 @@ public class UserServiceUnitTest {
                 .filter(user -> user.getRole().getName().equals("ADMIN"))
                 .collect(Collectors.toList()); //terminal operation that collects the filtered elements of the stream into a new list.
 
-        Mockito.when(this.userRepositoryMock.findByRoleName("ADMIN")).thenReturn(adminList);
+        Mockito.when(this.userRepositoryMock.findByRoleNameIgnoreCaseContaining("ADMIN")).thenReturn(adminList);
 
         this.userServiceImplMock.getAdminUsers();
 
-        Mockito.verify(this.userRepositoryMock, Mockito.times(1)).findByRoleName("ADMIN");
+        Mockito.verify(this.userRepositoryMock, Mockito.times(1)).findByRoleNameIgnoreCaseContaining("ADMIN");
 
     }
 
