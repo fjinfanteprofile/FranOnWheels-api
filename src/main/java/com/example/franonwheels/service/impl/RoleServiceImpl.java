@@ -2,7 +2,6 @@ package com.example.franonwheels.service.impl;
 
 import com.example.franonwheels.Util.RoleMapper;
 import com.example.franonwheels.model.domain.Role;
-import com.example.franonwheels.model.domain.User;
 import com.example.franonwheels.model.dtos.RoleDTO;
 import com.example.franonwheels.repository.RoleRepository;
 import com.example.franonwheels.repository.UserRepository;
@@ -47,8 +46,13 @@ public class RoleServiceImpl implements RoleService {
         Optional<Role> optionalRole = roleRepository.findById(id);
         if (optionalRole.isPresent()) {
             Role existingRole = optionalRole.get();
-            existingRole.setName(roleDTO.getName());
-            Role updatedRole = roleRepository.save(existingRole);
+
+            Role updatedRole = Role.builder()
+                    .id(existingRole.getId())
+                    .name(roleDTO.getName())
+                    .build();
+
+            updatedRole = roleRepository.save(updatedRole);
             return Optional.of(RoleMapper.roletoDTO(updatedRole));
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Role not found with ID: " + id);
