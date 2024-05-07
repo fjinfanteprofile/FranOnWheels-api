@@ -25,4 +25,6 @@ public interface VehicleService {
     public List<VehicleDTO> getActiveVehicles();
 
     public List<VehicleDTO> getInactiveVehicles();
+
+    List<VehicleDTO> getActiveVehiclesByTypeName(String typeName);
 }

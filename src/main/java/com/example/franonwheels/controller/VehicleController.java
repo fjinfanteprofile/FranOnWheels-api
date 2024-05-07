@@ -13,6 +13,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/vehicles")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200")
 public class VehicleController {
 
     private final VehicleServiceImpl vehicleServiceImpl;
@@ -64,5 +65,10 @@ public class VehicleController {
     public ResponseEntity<List<VehicleDTO>> getInactiveVehicles() {
         List<VehicleDTO> inactiveVehicles = vehicleServiceImpl.getInactiveVehicles();
         return new ResponseEntity<>(inactiveVehicles, HttpStatus.OK);
+    }
+    @GetMapping("/active/{typeName}")
+    public ResponseEntity<List<VehicleDTO>> getActiveVehiclesByTypeName(@PathVariable String typeName) {
+        List<VehicleDTO> activeVehicles = vehicleServiceImpl.getActiveVehiclesByTypeName(typeName);
+        return new ResponseEntity<>(activeVehicles, HttpStatus.OK);
     }
 }

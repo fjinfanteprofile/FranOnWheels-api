@@ -10,4 +10,7 @@ import java.util.List;
 public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
 
     List<Vehicle> findByActive(Integer active);
+
+    List<Vehicle> findByType_NameIgnoreCaseAndActive(String typeName, int active);
+
 }
