@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 import jakarta.annotation.PostConstruct;
 
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Arrays;
@@ -230,6 +231,7 @@ private void createSpecialities() {
         Random random = new Random();
 
         for (User user : users) {
+            DayOfWeek randomDayOfWeek = DayOfWeek.of(random.nextInt(5) + 1);
             Vehicle randomVehicle = getRandomElement(vehicles);
 
             // Randomly select an hour within the morning range (10:00 - 14:00)
@@ -250,6 +252,7 @@ private void createSpecialities() {
                     .timeStart(morningRandomTime.toString())
                     .timeEnd(morningRandomTime.plusHours(1).toString()) // End time is one hour later
                     .active(1)
+                    .dayOfWeek(randomDayOfWeek.toString())
                     .build();
 
             Classes savedMorningClass = classesRepository.save(morningClassEntity);
@@ -271,6 +274,7 @@ private void createSpecialities() {
                     .timeStart(eveningRandomTime.toString())
                     .timeEnd(eveningRandomTime.plusHours(1).toString()) // End time is one hour later
                     .active(1)
+                    .dayOfWeek(randomDayOfWeek.toString())
                     .build();
 
             Classes savedEveningClass = classesRepository.save(eveningClassEntity);

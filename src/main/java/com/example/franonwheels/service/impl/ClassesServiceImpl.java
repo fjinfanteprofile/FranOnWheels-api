@@ -10,7 +10,11 @@ import com.example.franonwheels.repository.UserRepository;
 import com.example.franonwheels.service.ClassesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -124,5 +128,58 @@ public class ClassesServiceImpl implements ClassesService {
         return inactiveClasses.stream()
                 .map(ClassesMapper::ClassestoDTO)
                 .collect(Collectors.toList());
+    }
+
+    // Retrieve available time slots for a specific day
+    public List<String> getAvailableTimeSlotsForDay(String day) {
+        // Retrieve all classes for the specified day
+        List<Classes> classesForDay = classesRepository.findByDayOfWeekIgnoreCase(day);
+
+        // Extract booked time slots from classes for the day
+        List<LocalTime> bookedTimeSlots = classesForDay.stream()
+                .map(classes -> LocalTime.parse(classes.getTimeStart()))
+                .collect(Collectors.toList());
+
+        // Define all possible time slots for a day
+        List<String> allTimeSlots = getAllTimeSlotsForDay();
+
+        // Convert all time slots to LocalTime objects for comparison
+        List<LocalTime> allTimeSlotsLocalTime = allTimeSlots.stream()
+                .map(LocalTime::parse)
+                .collect(Collectors.toList());
+
+        // Remove booked time slots from all time slots to get available time slots
+        allTimeSlotsLocalTime.removeAll(bookedTimeSlots);
+
+        // Sort the available time slots
+        allTimeSlotsLocalTime.sort(Comparator.naturalOrder());
+
+        // Convert back to string format
+        return allTimeSlotsLocalTime.stream()
+                .map(LocalTime::toString)
+                .collect(Collectors.toList());
+    }
+
+
+    public List<String> getAllTimeSlotsForDay() {
+        List<String> allTimeSlots = new ArrayList<>();
+
+        // Morning slots from 10:00 to 14:00
+        LocalTime morningStartTime = LocalTime.of(10, 0);
+        LocalTime morningEndTime = LocalTime.of(14, 0);
+        while (morningStartTime.isBefore(morningEndTime)) {
+            allTimeSlots.add(morningStartTime.toString());
+            morningStartTime = morningStartTime.plusHours(1);
+        }
+
+        // Evening slots from 17:00 to 22:00
+        LocalTime eveningStartTime = LocalTime.of(17, 0);
+        LocalTime eveningEndTime = LocalTime.of(22, 0);
+        while (eveningStartTime.isBefore(eveningEndTime)) {
+            allTimeSlots.add(eveningStartTime.toString());
+            eveningStartTime = eveningStartTime.plusHours(1);
+        }
+
+        return allTimeSlots;
     }
 }

@@ -27,7 +27,7 @@ public class Schedule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "dayofweek")
+
     private String dayOfWeek;
 
     private String starttime;

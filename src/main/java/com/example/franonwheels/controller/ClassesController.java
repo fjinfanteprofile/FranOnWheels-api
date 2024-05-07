@@ -6,6 +6,7 @@ import com.example.franonwheels.service.impl.ClassesServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -22,6 +23,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/classes")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200")
 public class ClassesController {
 
     private final ClassesServiceImpl classesServiceImpl;
@@ -93,5 +95,11 @@ public class ClassesController {
         List<ClassesDTO> inactiveClasses = classesServiceImpl.getInactiveClasses();
         return new ResponseEntity<>(inactiveClasses, HttpStatus.OK);
     }
+    @GetMapping("/available-time-slots/{day}")
+    public ResponseEntity<List<String>> getAvailableTimeSlots(@PathVariable String day) {
+        List<String> availableTimeSlots = classesServiceImpl.getAvailableTimeSlotsForDay(day);
+        return new ResponseEntity<>(availableTimeSlots, HttpStatus.OK);
+    }
+
 }
 

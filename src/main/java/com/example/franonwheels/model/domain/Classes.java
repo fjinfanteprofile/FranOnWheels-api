@@ -37,11 +37,13 @@ public class Classes {
 
     private LocalDate date;
 
-    @Column(name = "time_start")
+
     private String timeStart;
 
-    @Column(name = "time_end")
     private String timeEnd;
 
     private Integer active;
+
+
+    private String dayOfWeek;
 }

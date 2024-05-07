@@ -18,4 +18,5 @@ public class ClassesDTO {
     private String timeEnd;
     private Integer active;
     private Long userId;
+    private String dayOfWeek;
 }

@@ -12,4 +12,6 @@ public interface ClassesRepository extends JpaRepository<Classes, Long> {
     void deleteClassesByUserId(Long userId);
 
     List<Classes> findByActive(int i);
+
+    List<Classes> findByDayOfWeekIgnoreCase(String day);
 }

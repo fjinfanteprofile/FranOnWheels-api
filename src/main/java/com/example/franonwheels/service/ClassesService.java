@@ -17,4 +17,10 @@ public interface ClassesService {
     ClassesDTO updateClass(ClassesDTO classesDTO, Long id);
 
     void deleteClassById(Long id);
+
+    List<String> getAvailableTimeSlotsForDay(String day);
+
+    List<String> getAllTimeSlotsForDay();
+
+
 }

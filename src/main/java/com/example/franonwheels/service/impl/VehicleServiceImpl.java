@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200")
 public class VehicleServiceImpl implements VehicleService {
 
     private final VehicleRepository vehicleRepository;
