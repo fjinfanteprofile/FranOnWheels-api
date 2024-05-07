@@ -72,10 +72,13 @@ public class ClassesServiceImpl implements ClassesService {
 
         // Update fields of the existing entity with values from the DTO
         Classes existingClass = optionalClass.get();
-        existingClass.setDate(classesDTO.getDate());
-        existingClass.setVehicle(Vehicle.builder().id(classesDTO.getVehicleId()).build());
-        existingClass.setTimeEnd(classesDTO.getTimeEnd());
-        existingClass.setTimeStart(classesDTO.getTimeStart());
+        existingClass = Classes.builder()
+                .id(existingClass.getId())
+                .date(classesDTO.getDate())
+                .vehicle(Vehicle.builder().id(classesDTO.getVehicleId()).build())
+                .timeEnd(classesDTO.getTimeEnd())
+                .timeStart(classesDTO.getTimeStart())
+                .build();
 
         // Save the updated entity
         Classes updatedClassEntity = classesRepository.save(existingClass);

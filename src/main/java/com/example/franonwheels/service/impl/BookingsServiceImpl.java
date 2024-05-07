@@ -58,10 +58,13 @@ public class BookingsServiceImpl implements BookingsService {
                 Classes classes = optionalClasses.get();
                 User user = optionalUser.get();
 
-                existingBooking.setClasses(classes);
-                existingBooking.setUser(user);
+                Bookings updatedBooking = Bookings.builder()
+                        .id(existingBooking.getId())
+                        .classes(classes)
+                        .user(user)
+                        .build();
 
-                Bookings updatedBooking = bookingsRepository.save(existingBooking);
+                updatedBooking = bookingsRepository.save(updatedBooking);
                 return Optional.of(BookingsMapper.BookingstoDTO(updatedBooking));
             } else {
 

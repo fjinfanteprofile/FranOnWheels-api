@@ -44,10 +44,15 @@ public class ScheduleServiceImpl implements ScheduleService {
        Optional<Schedule> schedule = scheduleRepository.findById(id);
        if (schedule.isPresent()){
            Schedule existingSchedule = schedule.get();
-           existingSchedule.setDayOfWeek(scheduleDTO.getDayOfWeek());
-           existingSchedule.setStarttime(scheduleDTO.getStarttime());
-           existingSchedule.setEndtime(scheduleDTO.getEndtime());
-           Schedule updatedSchedule = scheduleRepository.save(existingSchedule);
+
+           Schedule updatedSchedule = Schedule.builder()
+                   .id(existingSchedule.getId())
+                   .dayOfWeek(scheduleDTO.getDayOfWeek())
+                   .starttime(scheduleDTO.getStarttime())
+                   .endtime(scheduleDTO.getEndtime())
+                   .build();
+
+           updatedSchedule = scheduleRepository.save(updatedSchedule);
            return Optional.of(ScheduleMapper.toDTO(updatedSchedule));
        }else{
            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Schedule not found with ID: " + id);

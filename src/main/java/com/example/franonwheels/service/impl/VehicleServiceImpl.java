@@ -11,6 +11,7 @@ import com.example.franonwheels.repository.VehicleTypeRepository;
 import com.example.franonwheels.service.VehicleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200")
 public class VehicleServiceImpl implements VehicleService {
 
     private final VehicleRepository vehicleRepository;
@@ -135,6 +137,13 @@ public class VehicleServiceImpl implements VehicleService {
     public List<VehicleDTO> getInactiveVehicles() {
         List<Vehicle> inactiveVehicles = vehicleRepository.findByActive(0); // Assuming inactive vehicles have active = 0
         return inactiveVehicles.stream()
+                .map(VehicleMapper::vehicleConvertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<VehicleDTO> getActiveVehiclesByTypeName(String typeName) {
+        List<Vehicle> activeVehicles = vehicleRepository.findByType_NameIgnoreCaseAndActive(typeName, 1);
+        return activeVehicles.stream()
                 .map(VehicleMapper::vehicleConvertToDTO)
                 .collect(Collectors.toList());
     }

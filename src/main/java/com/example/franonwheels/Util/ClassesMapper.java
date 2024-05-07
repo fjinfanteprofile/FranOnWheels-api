@@ -4,6 +4,8 @@ import com.example.franonwheels.model.domain.Classes;
 import com.example.franonwheels.model.domain.Vehicle;
 import com.example.franonwheels.model.dtos.ClassesDTO;
 
+import java.util.Objects;
+
 public class ClassesMapper {
 
     public static ClassesDTO ClassestoDTO(Classes classes) {
@@ -12,7 +14,7 @@ public class ClassesMapper {
         }
 
         Long userId = null;
-        if (classes.getUser() != null) {
+        if (!Objects.nonNull(classes.getUser())) {
             userId = classes.getUser().getId();
         }
 
@@ -30,7 +32,6 @@ public class ClassesMapper {
     public static Classes ClassesDTOtoEntity(ClassesDTO classesDTO){
 
         if (classesDTO == null){
-
             return null;
         }
 
