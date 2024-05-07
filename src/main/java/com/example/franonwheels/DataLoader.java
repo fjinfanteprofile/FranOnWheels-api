@@ -208,7 +208,6 @@ private void createSpecialities() {
                     .dayOfWeek(day)
                     .starttime("10:00")
                     .endtime("14:00")
-                    .date(LocalDate.now())
                     .active(1)
                     .build();
             scheduleRepository.save(morningSchedule);
@@ -218,7 +217,6 @@ private void createSpecialities() {
                     .dayOfWeek(day)
                     .starttime("17:00")
                     .endtime("22:00")
-                    .date(LocalDate.now())
                     .active(1)
                     .build();
             scheduleRepository.save(eveningSchedule);
@@ -234,12 +232,10 @@ private void createSpecialities() {
             Vehicle randomVehicle = getRandomElement(vehicles);
             Schedule randomSchedule = getRandomElement(schedules);
 
-            LocalDate scheduleDate = randomSchedule.getDate();
-
             Classes classEntity = Classes.builder()
                     .user(user)
                     .vehicle(randomVehicle)
-                    .date(scheduleDate)
+                    .date(LocalDate.now())
                     .timeStart(randomSchedule.getStarttime())
                     .timeEnd(randomSchedule.getEndtime())
                     .active(1)
