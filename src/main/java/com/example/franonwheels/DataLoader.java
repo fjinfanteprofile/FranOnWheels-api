@@ -21,6 +21,7 @@ import jakarta.annotation.PostConstruct;
 
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -226,36 +227,66 @@ private void createSpecialities() {
     private void createClassesAndBookings() {
         List<User> users = userRepository.findAll();
         List<Vehicle> vehicles = vehicleRepository.findAll();
-        List<Schedule> schedules = scheduleRepository.findAll();
+        Random random = new Random();
 
         for (User user : users) {
             Vehicle randomVehicle = getRandomElement(vehicles);
-            Schedule randomSchedule = getRandomElement(schedules);
 
-            Classes classEntity = Classes.builder()
+            // Randomly select an hour within the morning range (10:00 - 14:00)
+            LocalTime morningStartTime = LocalTime.of(10, 0);
+            LocalTime morningEndTime = LocalTime.of(14, 0);
+            LocalTime morningRandomTime = morningStartTime.plusHours(random.nextInt(4));
+
+            // Randomly select an hour within the evening range (17:00 - 22:00)
+            LocalTime eveningStartTime = LocalTime.of(17, 0);
+            LocalTime eveningEndTime = LocalTime.of(22, 0);
+            LocalTime eveningRandomTime = eveningStartTime.plusHours(random.nextInt(5));
+
+            // Create a class for the user with the random morning time
+            Classes morningClassEntity = Classes.builder()
                     .user(user)
                     .vehicle(randomVehicle)
                     .date(LocalDate.now())
-                    .timeStart(randomSchedule.getStarttime())
-                    .timeEnd(randomSchedule.getEndtime())
+                    .timeStart(morningRandomTime.toString())
+                    .timeEnd(morningRandomTime.plusHours(1).toString()) // End time is one hour later
                     .active(1)
                     .build();
 
-            Classes savedClass = classesRepository.save(classEntity);
+            Classes savedMorningClass = classesRepository.save(morningClassEntity);
 
-            // Create a booking for each class
-            Bookings booking = Bookings.builder()
-                    .classes(savedClass)
+            // Create a booking for the morning class
+            Bookings morningBooking = Bookings.builder()
+                    .classes(savedMorningClass)
                     .user(user)
                     .active(1)
                     .build();
 
-            booking.setId(savedClass.getId());
-            booking.setId(user.getId());
+            bookingsRepository.save(morningBooking);
 
-            bookingsRepository.save(booking);
+            // Create a class for the user with the random evening time
+            Classes eveningClassEntity = Classes.builder()
+                    .user(user)
+                    .vehicle(randomVehicle)
+                    .date(LocalDate.now())
+                    .timeStart(eveningRandomTime.toString())
+                    .timeEnd(eveningRandomTime.plusHours(1).toString()) // End time is one hour later
+                    .active(1)
+                    .build();
+
+            Classes savedEveningClass = classesRepository.save(eveningClassEntity);
+
+            // Create a booking for the evening class
+            Bookings eveningBooking = Bookings.builder()
+                    .classes(savedEveningClass)
+                    .user(user)
+                    .active(1)
+                    .build();
+
+            bookingsRepository.save(eveningBooking);
         }
     }
+
+
 
     private <T> T getRandomElement(List<T> list) {
 
