@@ -121,4 +121,14 @@ public class UserController {
         return new ResponseEntity<>(inactiveUsers, HttpStatus.OK);
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<UserDTO> loginUser(@RequestBody UserDTO userDTO) {
+        Optional<UserDTO> loggedInUser = userServiceImpl.loginUser(userDTO.getEmail(), userDTO.getPassword());
+        if (loggedInUser.isPresent()) {
+            return ResponseEntity.ok(loggedInUser.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
 }

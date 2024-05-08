@@ -133,7 +133,7 @@ private void createSpecialities() {
                     .email("user" + i + "@example.com")
                     .address("Address " + i)
                     .age(i)
-                    .password("pass" + i + ' ' + i)
+                    .password("pass" + i)
                     .phoneNumber(generateRandomPhoneNumber())
                     .role(roles.get(random.nextInt(roles.size())))
                     .speciality(specialities.get(random.nextInt(specialities.size())))

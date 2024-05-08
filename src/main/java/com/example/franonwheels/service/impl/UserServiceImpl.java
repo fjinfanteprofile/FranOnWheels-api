@@ -188,4 +188,14 @@ public class UserServiceImpl implements UserService {
                 .map(UserMapper::userConvertToDTO)
                 .collect(Collectors.toList());
     }
+
+    public Optional<UserDTO> loginUser(String email, String password) {
+        Optional<User> user = userRepository.findByEmail(email);
+        if (user.isPresent()) {
+            if (password.equals(user.get().getPassword())) {
+                return Optional.of(UserMapper.userConvertToDTO(user.get()));
+            }
+        }
+        return Optional.empty();
+    }
 }
