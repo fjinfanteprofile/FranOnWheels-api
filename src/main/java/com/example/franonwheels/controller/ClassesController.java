@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -95,9 +96,15 @@ public class ClassesController {
         List<ClassesDTO> inactiveClasses = classesServiceImpl.getInactiveClasses();
         return new ResponseEntity<>(inactiveClasses, HttpStatus.OK);
     }
-    @GetMapping("/available-time-slots/{day}")
-    public ResponseEntity<List<String>> getAvailableTimeSlots(@PathVariable String day) {
-        List<String> availableTimeSlots = classesServiceImpl.getAvailableTimeSlotsForDay(day);
+//    @GetMapping("/available-time-slots/{day}")
+//    public ResponseEntity<List<String>> getAvailableTimeSlots(@PathVariable String day) {
+//        List<String> availableTimeSlots = classesServiceImpl.getAvailableTimeSlotsForDay(day);
+//        return new ResponseEntity<>(availableTimeSlots, HttpStatus.OK);
+//    }
+
+    @GetMapping("/available-time-slots/{date}")
+    public ResponseEntity<List<String>> getAvailableTimeSlots(@PathVariable LocalDate date) {
+        List<String> availableTimeSlots = classesServiceImpl.getAvailableTimeSlotsForDate(date);
         return new ResponseEntity<>(availableTimeSlots, HttpStatus.OK);
     }
 

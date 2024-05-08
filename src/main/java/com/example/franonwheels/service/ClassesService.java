@@ -3,6 +3,7 @@ package com.example.franonwheels.service;
 import com.example.franonwheels.model.domain.Classes;
 import com.example.franonwheels.model.dtos.ClassesDTO;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,9 +19,12 @@ public interface ClassesService {
 
     void deleteClassById(Long id);
 
-    List<String> getAvailableTimeSlotsForDay(String day);
+//    List<String> getAvailableTimeSlotsForDay(String day);
+//
+//    List<String> getAllTimeSlotsForDay();
 
-    List<String> getAllTimeSlotsForDay();
+    List<String> getAvailableTimeSlotsForDate(LocalDate date);
 
+    List<String> getAllTimeSlotsForDate();
 
 }

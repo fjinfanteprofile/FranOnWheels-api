@@ -13,19 +13,17 @@ public class ClassesMapper {
             return null;
         }
 
-        Long userId = null;
-        if (!Objects.nonNull(classes.getUser())) {
-            userId = classes.getUser().getId();
-        }
+        Long userId = classes.getUser() != null ? classes.getUser().getId() : null;
 
         return ClassesDTO.builder()
                 .id(classes.getId())
-                .date(classes.getDate())
                 .vehicleId(classes.getVehicle().getId())
                 .timeEnd(classes.getTimeEnd())
                 .timeStart(classes.getTimeStart())
                 .active(classes.getActive())
                 .userId(userId)
+                .dayOfWeek(classes.getDate().getDayOfWeek().toString())
+                .date(classes.getDate())
                 .build();
     }
 
@@ -37,11 +35,12 @@ public class ClassesMapper {
 
         return Classes.builder()
                 .id(classesDTO.getId())
-                .date(classesDTO.getDate())
                 .vehicle(Vehicle.builder().id(classesDTO.getVehicleId()).build())
                 .timeEnd(classesDTO.getTimeEnd())
                 .timeStart(classesDTO.getTimeStart())
                 .active(classesDTO.getActive())
+                .dayOfWeek(classesDTO.getDate().getDayOfWeek().toString())
+                .date(classesDTO.getDate())
                 .build();
 
     }

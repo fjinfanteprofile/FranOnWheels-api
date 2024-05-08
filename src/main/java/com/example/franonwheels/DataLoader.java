@@ -231,7 +231,16 @@ private void createSpecialities() {
         Random random = new Random();
 
         for (User user : users) {
-            DayOfWeek randomDayOfWeek = DayOfWeek.of(random.nextInt(5) + 1);
+            LocalDate randomDate;
+            DayOfWeek randomDayOfWeek;
+
+            // Generate a random date until it's not a Saturday or Sunday
+            do {
+                // Generate a random date within a range, for example, the last 30 days
+                randomDate = LocalDate.now().minusDays(random.nextInt(30));
+                randomDayOfWeek = randomDate.getDayOfWeek();
+            } while (randomDayOfWeek == DayOfWeek.SATURDAY || randomDayOfWeek == DayOfWeek.SUNDAY);
+
             Vehicle randomVehicle = getRandomElement(vehicles);
 
             // Randomly select an hour within the morning range (10:00 - 14:00)
@@ -248,7 +257,7 @@ private void createSpecialities() {
             Classes morningClassEntity = Classes.builder()
                     .user(user)
                     .vehicle(randomVehicle)
-                    .date(LocalDate.now())
+                    .date(randomDate)
                     .timeStart(morningRandomTime.toString())
                     .timeEnd(morningRandomTime.plusHours(1).toString()) // End time is one hour later
                     .active(1)
@@ -270,7 +279,7 @@ private void createSpecialities() {
             Classes eveningClassEntity = Classes.builder()
                     .user(user)
                     .vehicle(randomVehicle)
-                    .date(LocalDate.now())
+                    .date(randomDate)
                     .timeStart(eveningRandomTime.toString())
                     .timeEnd(eveningRandomTime.plusHours(1).toString()) // End time is one hour later
                     .active(1)
@@ -289,6 +298,8 @@ private void createSpecialities() {
             bookingsRepository.save(eveningBooking);
         }
     }
+
+
 
 
 

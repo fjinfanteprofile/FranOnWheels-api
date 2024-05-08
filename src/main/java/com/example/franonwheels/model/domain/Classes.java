@@ -37,13 +37,11 @@ public class Classes {
 
     private LocalDate date;
 
-
     private String timeStart;
 
     private String timeEnd;
 
     private Integer active;
-
 
     private String dayOfWeek;
 }

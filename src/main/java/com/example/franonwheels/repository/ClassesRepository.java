@@ -4,6 +4,7 @@ import com.example.franonwheels.model.domain.Classes;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -14,4 +15,6 @@ public interface ClassesRepository extends JpaRepository<Classes, Long> {
     List<Classes> findByActive(int i);
 
     List<Classes> findByDayOfWeekIgnoreCase(String day);
+
+    List<Classes> findByDate(LocalDate date);
 }
