@@ -126,6 +126,7 @@ private void createSpecialities() {
         for (int i = 0; i < 10; i++) {
             User user = User.builder()
                     .active(1)
+                    .username("username" + i)
                     .name("User" + i)
                     .lastName("LastName" + i)
                     .dni(generateRandomDNI())
