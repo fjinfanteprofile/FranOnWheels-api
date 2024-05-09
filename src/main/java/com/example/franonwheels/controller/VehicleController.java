@@ -13,7 +13,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/vehicles")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200")
 public class VehicleController {
 
     private final VehicleServiceImpl vehicleServiceImpl;

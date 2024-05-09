@@ -23,7 +23,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/vehicle-types")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200")
 public class VehicleTypeController {
 
     private final VehicleTypeServiceImpl vehicleTypeServiceImpl;

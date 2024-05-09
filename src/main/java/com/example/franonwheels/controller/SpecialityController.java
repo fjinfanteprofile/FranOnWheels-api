@@ -23,7 +23,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/specialities")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200")
 public class SpecialityController {
 
     private final SpecialityServiceImpl specialityServiceImpl;

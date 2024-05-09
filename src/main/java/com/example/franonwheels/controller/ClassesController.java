@@ -24,7 +24,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/classes")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200")
 public class ClassesController {
 
     private final ClassesServiceImpl classesServiceImpl;
