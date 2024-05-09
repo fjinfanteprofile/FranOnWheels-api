@@ -19,10 +19,6 @@ public interface ClassesService {
 
     void deleteClassById(Long id);
 
-//    List<String> getAvailableTimeSlotsForDay(String day);
-//
-//    List<String> getAllTimeSlotsForDay();
-
     List<String> getAvailableTimeSlotsForDate(LocalDate date);
 
     List<String> getAllTimeSlotsForDate();

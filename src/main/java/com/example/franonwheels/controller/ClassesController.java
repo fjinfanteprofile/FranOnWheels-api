@@ -96,11 +96,6 @@ public class ClassesController {
         List<ClassesDTO> inactiveClasses = classesServiceImpl.getInactiveClasses();
         return new ResponseEntity<>(inactiveClasses, HttpStatus.OK);
     }
-//    @GetMapping("/available-time-slots/{day}")
-//    public ResponseEntity<List<String>> getAvailableTimeSlots(@PathVariable String day) {
-//        List<String> availableTimeSlots = classesServiceImpl.getAvailableTimeSlotsForDay(day);
-//        return new ResponseEntity<>(availableTimeSlots, HttpStatus.OK);
-//    }
 
     @GetMapping("/available-time-slots/{date}")
     public ResponseEntity<List<String>> getAvailableTimeSlots(@PathVariable LocalDate date) {

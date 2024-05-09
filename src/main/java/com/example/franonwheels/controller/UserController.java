@@ -129,7 +129,7 @@ public class UserController {
         if (loggedInUser.isPresent()) {
             return ResponseEntity.ok(loggedInUser.get());
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
     }
 
