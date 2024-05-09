@@ -3,14 +3,12 @@ package com.example.franonwheels;
 import com.example.franonwheels.model.domain.Bookings;
 import com.example.franonwheels.model.domain.Classes;
 import com.example.franonwheels.model.domain.Role;
-import com.example.franonwheels.model.domain.Schedule;
 import com.example.franonwheels.model.domain.User;
 import com.example.franonwheels.model.domain.Vehicle;
 import com.example.franonwheels.model.domain.VehicleType;
 import com.example.franonwheels.repository.BookingsRepository;
 import com.example.franonwheels.repository.ClassesRepository;
 import com.example.franonwheels.repository.RoleRepository;
-import com.example.franonwheels.repository.ScheduleRepository;
 import com.example.franonwheels.repository.UserRepository;
 import com.example.franonwheels.repository.VehicleRepository;
 import com.example.franonwheels.repository.VehicleTypeRepository;
@@ -21,7 +19,6 @@ import jakarta.annotation.PostConstruct;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -34,7 +31,6 @@ public class DataLoader {
     private final ClassesRepository classesRepository;
     private final VehicleRepository vehicleRepository;
     private final VehicleTypeRepository vehicleTypeRepository;
-    private final ScheduleRepository scheduleRepository;
     private final BookingsRepository bookingsRepository;
 
     private final Random random = new Random();
@@ -42,13 +38,12 @@ public class DataLoader {
 
     public DataLoader(UserRepository userRepository, RoleRepository roleRepository, ClassesRepository classesRepository,
                       VehicleRepository vehicleRepository, VehicleTypeRepository vehicleTypeRepository,
-                      ScheduleRepository scheduleRepository, BookingsRepository bookingsRepository) {
+                       BookingsRepository bookingsRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.classesRepository = classesRepository;
         this.vehicleRepository = vehicleRepository;
         this.vehicleTypeRepository = vehicleTypeRepository;
-        this.scheduleRepository = scheduleRepository;
         this.bookingsRepository = bookingsRepository;
     }
 
@@ -63,8 +58,6 @@ public class DataLoader {
         createUsers();
         // Insert vehicles if the repository is empty
         createVehicles();
-        // Insert schedules if the repository is empty
-        createSchedules();
         // Insert classes if the repository is empty
         createClassesAndBookings();
     }
@@ -167,33 +160,7 @@ public class DataLoader {
         }
         return licensePlate.toString();
     }
-
-
-
-    private void createSchedules() {
-        String[] daysOfWeek = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
-
-
-        for (String day : daysOfWeek) {
-            // Create schedule for 10:00 to 14:00
-            Schedule morningSchedule = Schedule.builder()
-                    .dayOfWeek(day)
-                    .starttime("10:00")
-                    .endtime("14:00")
-                    .active(1)
-                    .build();
-            scheduleRepository.save(morningSchedule);
-
-            // Create schedule for 17:00 to 22:00
-            Schedule eveningSchedule = Schedule.builder()
-                    .dayOfWeek(day)
-                    .starttime("17:00")
-                    .endtime("22:00")
-                    .active(1)
-                    .build();
-            scheduleRepository.save(eveningSchedule);
-        }
-    }
+    
 
     private void createClassesAndBookings() {
         List<User> users = userRepository.findAll();
