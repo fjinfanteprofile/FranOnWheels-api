@@ -2,14 +2,12 @@ package com.example.franonwheels.service.impl;
 
 import com.example.franonwheels.Util.ScheduleMapper;
 import com.example.franonwheels.model.domain.Schedule;
-import com.example.franonwheels.model.domain.Speciality;
 import com.example.franonwheels.model.dtos.ScheduleDTO;
 import com.example.franonwheels.repository.ScheduleRepository;
 import com.example.franonwheels.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;

@@ -23,4 +23,6 @@ public interface ClassesService {
 
     List<String> getAllTimeSlotsForDate();
 
+    List<ClassesDTO> getClassesByUserId(Long userId);
+
 }

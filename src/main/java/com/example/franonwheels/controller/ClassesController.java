@@ -102,5 +102,11 @@ public class ClassesController {
         return new ResponseEntity<>(availableTimeSlots, HttpStatus.OK);
     }
 
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<ClassesDTO>> getClassesByUserId(@PathVariable Long userId) {
+        List<ClassesDTO> classes = classesServiceImpl.getClassesByUserId(userId);
+        return new ResponseEntity<>(classes, HttpStatus.OK);
+    }
+
 }
 

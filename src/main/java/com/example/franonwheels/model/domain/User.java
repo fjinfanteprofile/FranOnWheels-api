@@ -54,9 +54,6 @@ public class User {
     @JoinColumn(name = "role_id")
     private Role role;
 
-    @ManyToOne
-    @JoinColumn(name = "speciality_id")
-    private Speciality speciality;
 
     @OneToMany(mappedBy = "user")
     private List<Bookings> bookings;

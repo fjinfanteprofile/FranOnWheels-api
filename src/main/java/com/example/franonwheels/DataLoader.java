@@ -4,7 +4,6 @@ import com.example.franonwheels.model.domain.Bookings;
 import com.example.franonwheels.model.domain.Classes;
 import com.example.franonwheels.model.domain.Role;
 import com.example.franonwheels.model.domain.Schedule;
-import com.example.franonwheels.model.domain.Speciality;
 import com.example.franonwheels.model.domain.User;
 import com.example.franonwheels.model.domain.Vehicle;
 import com.example.franonwheels.model.domain.VehicleType;
@@ -12,7 +11,6 @@ import com.example.franonwheels.repository.BookingsRepository;
 import com.example.franonwheels.repository.ClassesRepository;
 import com.example.franonwheels.repository.RoleRepository;
 import com.example.franonwheels.repository.ScheduleRepository;
-import com.example.franonwheels.repository.SpecialityRepository;
 import com.example.franonwheels.repository.UserRepository;
 import com.example.franonwheels.repository.VehicleRepository;
 import com.example.franonwheels.repository.VehicleTypeRepository;
@@ -33,7 +31,6 @@ public class DataLoader {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private final SpecialityRepository specialityRepository;
     private final ClassesRepository classesRepository;
     private final VehicleRepository vehicleRepository;
     private final VehicleTypeRepository vehicleTypeRepository;
@@ -43,13 +40,11 @@ public class DataLoader {
     private final Random random = new Random();
 
 
-    public DataLoader(UserRepository userRepository, RoleRepository roleRepository,
-                      SpecialityRepository specialityRepository, ClassesRepository classesRepository,
+    public DataLoader(UserRepository userRepository, RoleRepository roleRepository, ClassesRepository classesRepository,
                       VehicleRepository vehicleRepository, VehicleTypeRepository vehicleTypeRepository,
                       ScheduleRepository scheduleRepository, BookingsRepository bookingsRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
-        this.specialityRepository = specialityRepository;
         this.classesRepository = classesRepository;
         this.vehicleRepository = vehicleRepository;
         this.vehicleTypeRepository = vehicleTypeRepository;
@@ -62,7 +57,6 @@ public class DataLoader {
     public void init() {
         // Create roles and specialities if they do not exist
         createRoles();
-        createSpecialities();
         // Insert vehicle types if the repository is empty
         createVehicleTypes();
         // Insert users if the repository is empty
@@ -90,29 +84,6 @@ public class DataLoader {
 //
 //      Creates and saves specialities if they do not exist in the database.
 //
-private void createSpecialities() {
-    // Check if specialities already exist in the database
-    if (specialityRepository.count() == 0) {
-        Speciality specialityA1 = Speciality.builder().name("A1").active(1).build();
-        Speciality specialityA2 = Speciality.builder().name("A2").active(1).build();
-        Speciality specialityAM = Speciality.builder().name("AM").active(1).build();
-        Speciality specialityA = Speciality.builder().name("A").active(1).build();
-        Speciality specialityB1 = Speciality.builder().name("B1").active(1).build();
-        Speciality specialityB = Speciality.builder().name("B").active(1).build();
-        Speciality specialityC1 = Speciality.builder().name("C1").active(1).build();
-        Speciality specialityC = Speciality.builder().name("C").active(1).build();
-        Speciality specialityD1 = Speciality.builder().name("D1").active(1).build();
-        Speciality specialityD = Speciality.builder().name("D").active(1).build();
-        Speciality specialityBE = Speciality.builder().name("BE").active(1).build();
-        Speciality specialityC1E = Speciality.builder().name("C1E").active(1).build();
-        Speciality specialityCE = Speciality.builder().name("CE").active(1).build();
-
-        // Save specialities
-        specialityRepository.saveAll(Arrays.asList(specialityA1, specialityA2, specialityAM, specialityA,
-                specialityB1, specialityB, specialityC1, specialityC, specialityD1, specialityD,
-                specialityBE, specialityC1E, specialityCE));
-    }
-}
 
 
 
@@ -121,7 +92,6 @@ private void createSpecialities() {
 
     private void createUsers() {
         List<Role> roles = roleRepository.findAll();
-        List<Speciality> specialities = specialityRepository.findAll();
 
         for (int i = 0; i < 10; i++) {
             User user = User.builder()
@@ -136,7 +106,6 @@ private void createSpecialities() {
                     .password("pass" + i)
                     .phoneNumber(generateRandomPhoneNumber())
                     .role(roles.get(random.nextInt(roles.size())))
-                    .speciality(specialities.get(random.nextInt(specialities.size())))
                     .build();
             userRepository.save(user);
         }

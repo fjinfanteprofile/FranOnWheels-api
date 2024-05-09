@@ -17,8 +17,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     // Finds users by their role name
     List<User> findByRoleNameIgnoreCaseContaining(@Param("roleName") String roleName);
 
-    // Finds users by their speciality name
-    List<User> findUsersBySpecialityName(@Param("specialityName") String specialityName);
 
     // Custom query to find users with bookings on a specific date
     @Query("SELECT DISTINCT u FROM User u INNER JOIN u.bookings b WHERE b.classes.date = :bookingDate")

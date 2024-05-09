@@ -19,6 +19,5 @@ public class UserDTO {
     private String password;
     private Integer age;
     private RoleDTO role;
-    private SpecialityDTO speciality;
     private Integer active;
 }

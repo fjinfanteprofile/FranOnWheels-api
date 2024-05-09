@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -180,5 +181,18 @@ public class ClassesServiceImpl implements ClassesService {
         }
 
         return allTimeSlots;
+    }
+
+    public List<ClassesDTO> getClassesByUserId(Long userId) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            List<Classes> classes = classesRepository.findByUser(user);
+            return classes.stream()
+                    .map(ClassesMapper::ClassestoDTO)
+                    .collect(Collectors.toList());
+        } else {
+            return Collections.emptyList(); // User not found
+        }
     }
 }
