@@ -2,7 +2,6 @@ package com.example.franonwheels.Util;
 
 import com.example.franonwheels.model.domain.User;
 import com.example.franonwheels.model.dtos.RoleDTO;
-import com.example.franonwheels.model.dtos.SpecialityDTO;
 import com.example.franonwheels.model.dtos.UserDTO;
 import lombok.experimental.UtilityClass;
 
@@ -25,17 +24,9 @@ public class UserMapper {
                     .name(user.getRole().getName())
                     .build();
         }
-
-        SpecialityDTO specialityDTO = null;
-        if (user.getSpeciality() != null) {
-            specialityDTO = SpecialityDTO.builder()
-                    .id(user.getSpeciality().getId())
-                    .name(user.getSpeciality().getName())
-                    .active(user.getActive())
-                    .build();
-        }
         return UserDTO.builder()
                 .id(user.getId())
+                .username(user.getUsername())
                 .name(user.getName())
                 .lastName(user.getLastName())
                 .dni(user.getDni())
@@ -45,7 +36,6 @@ public class UserMapper {
                 .password(user.getPassword())
                 .age(user.getAge())
                 .role(roleDTO)
-                .speciality(specialityDTO)
                 .active(user.getActive())
                 .build();
     }
@@ -57,6 +47,7 @@ public class UserMapper {
 
         return User.builder()
                 .id(userDTO.getId())
+                .username(userDTO.getUsername())
                 .name(userDTO.getName())
                 .lastName(userDTO.getLastName())
                 .email(userDTO.getEmail())
@@ -65,7 +56,6 @@ public class UserMapper {
                 .age(userDTO.getAge())
                 .dni(userDTO.getDni())
                 .role(RoleMapper.dtoToRole(userDTO.getRole()))
-                .speciality(SpecialityMapper.SpecialityDTOtoEntity(userDTO.getSpeciality()))
                 .password(userDTO.getPassword())
                 .active(userDTO.getActive())
                 .build();

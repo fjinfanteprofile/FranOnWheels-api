@@ -5,6 +5,7 @@ import com.example.franonwheels.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -119,6 +120,16 @@ public class UserController {
     public ResponseEntity<List<UserDTO>> getInactiveUsers() {
         List<UserDTO> inactiveUsers = userServiceImpl.getInactiveUsers();
         return new ResponseEntity<>(inactiveUsers, HttpStatus.OK);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<UserDTO> loginUser(@RequestBody UserDTO userDTO) {
+        Optional<UserDTO> loggedInUser = userServiceImpl.loginUser(userDTO.getEmail(), userDTO.getPassword());
+        if (loggedInUser.isPresent()) {
+            return ResponseEntity.ok(loggedInUser.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
     }
 
 }

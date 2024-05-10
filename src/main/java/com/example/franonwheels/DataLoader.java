@@ -3,16 +3,12 @@ package com.example.franonwheels;
 import com.example.franonwheels.model.domain.Bookings;
 import com.example.franonwheels.model.domain.Classes;
 import com.example.franonwheels.model.domain.Role;
-import com.example.franonwheels.model.domain.Schedule;
-import com.example.franonwheels.model.domain.Speciality;
 import com.example.franonwheels.model.domain.User;
 import com.example.franonwheels.model.domain.Vehicle;
 import com.example.franonwheels.model.domain.VehicleType;
 import com.example.franonwheels.repository.BookingsRepository;
 import com.example.franonwheels.repository.ClassesRepository;
 import com.example.franonwheels.repository.RoleRepository;
-import com.example.franonwheels.repository.ScheduleRepository;
-import com.example.franonwheels.repository.SpecialityRepository;
 import com.example.franonwheels.repository.UserRepository;
 import com.example.franonwheels.repository.VehicleRepository;
 import com.example.franonwheels.repository.VehicleTypeRepository;
@@ -20,8 +16,9 @@ import org.springframework.stereotype.Component;
 import jakarta.annotation.PostConstruct;
 
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.Arrays;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Random;
 
@@ -31,27 +28,22 @@ public class DataLoader {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private final SpecialityRepository specialityRepository;
     private final ClassesRepository classesRepository;
     private final VehicleRepository vehicleRepository;
     private final VehicleTypeRepository vehicleTypeRepository;
-    private final ScheduleRepository scheduleRepository;
     private final BookingsRepository bookingsRepository;
 
     private final Random random = new Random();
 
 
-    public DataLoader(UserRepository userRepository, RoleRepository roleRepository,
-                      SpecialityRepository specialityRepository, ClassesRepository classesRepository,
+    public DataLoader(UserRepository userRepository, RoleRepository roleRepository, ClassesRepository classesRepository,
                       VehicleRepository vehicleRepository, VehicleTypeRepository vehicleTypeRepository,
-                      ScheduleRepository scheduleRepository, BookingsRepository bookingsRepository) {
+                       BookingsRepository bookingsRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
-        this.specialityRepository = specialityRepository;
         this.classesRepository = classesRepository;
         this.vehicleRepository = vehicleRepository;
         this.vehicleTypeRepository = vehicleTypeRepository;
-        this.scheduleRepository = scheduleRepository;
         this.bookingsRepository = bookingsRepository;
     }
 
@@ -60,15 +52,12 @@ public class DataLoader {
     public void init() {
         // Create roles and specialities if they do not exist
         createRoles();
-        createSpecialities();
         // Insert vehicle types if the repository is empty
         createVehicleTypes();
         // Insert users if the repository is empty
         createUsers();
         // Insert vehicles if the repository is empty
         createVehicles();
-        // Insert schedules if the repository is empty
-        createSchedules();
         // Insert classes if the repository is empty
         createClassesAndBookings();
     }
@@ -88,29 +77,6 @@ public class DataLoader {
 //
 //      Creates and saves specialities if they do not exist in the database.
 //
-private void createSpecialities() {
-    // Check if specialities already exist in the database
-    if (specialityRepository.count() == 0) {
-        Speciality specialityA1 = Speciality.builder().name("A1").active(1).build();
-        Speciality specialityA2 = Speciality.builder().name("A2").active(1).build();
-        Speciality specialityAM = Speciality.builder().name("AM").active(1).build();
-        Speciality specialityA = Speciality.builder().name("A").active(1).build();
-        Speciality specialityB1 = Speciality.builder().name("B1").active(1).build();
-        Speciality specialityB = Speciality.builder().name("B").active(1).build();
-        Speciality specialityC1 = Speciality.builder().name("C1").active(1).build();
-        Speciality specialityC = Speciality.builder().name("C").active(1).build();
-        Speciality specialityD1 = Speciality.builder().name("D1").active(1).build();
-        Speciality specialityD = Speciality.builder().name("D").active(1).build();
-        Speciality specialityBE = Speciality.builder().name("BE").active(1).build();
-        Speciality specialityC1E = Speciality.builder().name("C1E").active(1).build();
-        Speciality specialityCE = Speciality.builder().name("CE").active(1).build();
-
-        // Save specialities
-        specialityRepository.saveAll(Arrays.asList(specialityA1, specialityA2, specialityAM, specialityA,
-                specialityB1, specialityB, specialityC1, specialityC, specialityD1, specialityD,
-                specialityBE, specialityC1E, specialityCE));
-    }
-}
 
 
 
@@ -119,21 +85,20 @@ private void createSpecialities() {
 
     private void createUsers() {
         List<Role> roles = roleRepository.findAll();
-        List<Speciality> specialities = specialityRepository.findAll();
 
         for (int i = 0; i < 10; i++) {
             User user = User.builder()
                     .active(1)
+                    .username("username" + i)
                     .name("User" + i)
                     .lastName("LastName" + i)
                     .dni(generateRandomDNI())
                     .email("user" + i + "@example.com")
                     .address("Address " + i)
                     .age(i)
-                    .password("pass" + i + ' ' + i)
+                    .password("pass" + i)
                     .phoneNumber(generateRandomPhoneNumber())
                     .role(roles.get(random.nextInt(roles.size())))
-                    .speciality(specialities.get(random.nextInt(specialities.size())))
                     .build();
             userRepository.save(user);
         }
@@ -195,71 +160,85 @@ private void createSpecialities() {
         }
         return licensePlate.toString();
     }
-
-
-
-    private void createSchedules() {
-        String[] daysOfWeek = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
-
-
-        for (String day : daysOfWeek) {
-            // Create schedule for 10:00 to 14:00
-            Schedule morningSchedule = Schedule.builder()
-                    .dayOfWeek(day)
-                    .starttime("10:00")
-                    .endtime("14:00")
-                    .date(LocalDate.now())
-                    .active(1)
-                    .build();
-            scheduleRepository.save(morningSchedule);
-
-            // Create schedule for 17:00 to 22:00
-            Schedule eveningSchedule = Schedule.builder()
-                    .dayOfWeek(day)
-                    .starttime("17:00")
-                    .endtime("22:00")
-                    .date(LocalDate.now())
-                    .active(1)
-                    .build();
-            scheduleRepository.save(eveningSchedule);
-        }
-    }
+    
 
     private void createClassesAndBookings() {
         List<User> users = userRepository.findAll();
         List<Vehicle> vehicles = vehicleRepository.findAll();
-        List<Schedule> schedules = scheduleRepository.findAll();
+        Random random = new Random();
 
         for (User user : users) {
+            LocalDate randomDate;
+            DayOfWeek randomDayOfWeek;
+
+            // Generate a random date until it's not a Saturday or Sunday
+            do {
+                // Generate a random date within a range, for example, the last 30 days
+                randomDate = LocalDate.now().minusDays(random.nextInt(30));
+                randomDayOfWeek = randomDate.getDayOfWeek();
+            } while (randomDayOfWeek == DayOfWeek.SATURDAY || randomDayOfWeek == DayOfWeek.SUNDAY);
+
             Vehicle randomVehicle = getRandomElement(vehicles);
-            Schedule randomSchedule = getRandomElement(schedules);
 
-            LocalDate scheduleDate = randomSchedule.getDate();
+            // Randomly select an hour within the morning range (10:00 - 14:00)
+            LocalTime morningStartTime = LocalTime.of(10, 0);
+            LocalTime morningEndTime = LocalTime.of(14, 0);
+            LocalTime morningRandomTime = morningStartTime.plusHours(random.nextInt(4));
 
-            Classes classEntity = Classes.builder()
+            // Randomly select an hour within the evening range (17:00 - 22:00)
+            LocalTime eveningStartTime = LocalTime.of(17, 0);
+            LocalTime eveningEndTime = LocalTime.of(22, 0);
+            LocalTime eveningRandomTime = eveningStartTime.plusHours(random.nextInt(5));
+
+            // Create a class for the user with the random morning time
+            Classes morningClassEntity = Classes.builder()
                     .user(user)
                     .vehicle(randomVehicle)
-                    .date(scheduleDate)
-                    .timeStart(randomSchedule.getStarttime())
-                    .timeEnd(randomSchedule.getEndtime())
+                    .date(randomDate)
+                    .timeStart(morningRandomTime.toString())
+                    .timeEnd(morningRandomTime.plusHours(1).toString()) // End time is one hour later
                     .active(1)
+                    .dayOfWeek(randomDayOfWeek.toString())
                     .build();
 
-            Classes savedClass = classesRepository.save(classEntity);
+            Classes savedMorningClass = classesRepository.save(morningClassEntity);
 
-            // Create a booking for each class
-            Bookings booking = Bookings.builder()
-                    .classes(savedClass)
+            // Create a booking for the morning class
+            Bookings morningBooking = Bookings.builder()
+                    .classes(savedMorningClass)
                     .user(user)
                     .active(1)
                     .build();
 
-            booking.setId(savedClass.getId());
-            booking.setId(user.getId());
+            bookingsRepository.save(morningBooking);
 
-            bookingsRepository.save(booking);
+            // Create a class for the user with the random evening time
+            Classes eveningClassEntity = Classes.builder()
+                    .user(user)
+                    .vehicle(randomVehicle)
+                    .date(randomDate)
+                    .timeStart(eveningRandomTime.toString())
+                    .timeEnd(eveningRandomTime.plusHours(1).toString()) // End time is one hour later
+                    .active(1)
+                    .dayOfWeek(randomDayOfWeek.toString())
+                    .build();
+
+            Classes savedEveningClass = classesRepository.save(eveningClassEntity);
+
+            // Create a booking for the evening class
+            Bookings eveningBooking = Bookings.builder()
+                    .classes(savedEveningClass)
+                    .user(user)
+                    .active(1)
+                    .build();
+
+            bookingsRepository.save(eveningBooking);
         }
     }
+
+
+
+
 
     private <T> T getRandomElement(List<T> list) {
 

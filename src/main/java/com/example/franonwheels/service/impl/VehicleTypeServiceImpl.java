@@ -8,6 +8,7 @@ import com.example.franonwheels.repository.VehicleTypeRepository;
 import com.example.franonwheels.service.VehicleTypeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
 import java.util.Optional;

@@ -9,6 +9,7 @@ import lombok.Setter;
 @Builder
 public class UserDTO {
     private Long id;
+    private String username;
     private String name;
     private String lastName;
     private String dni;
@@ -18,6 +19,5 @@ public class UserDTO {
     private String password;
     private Integer age;
     private RoleDTO role;
-    private SpecialityDTO speciality;
     private Integer active;
 }

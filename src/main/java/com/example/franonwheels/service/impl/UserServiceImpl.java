@@ -2,18 +2,16 @@ package com.example.franonwheels.service.impl;
 
 import com.example.franonwheels.Util.UserMapper;
 import com.example.franonwheels.model.domain.Role;
-import com.example.franonwheels.model.domain.Speciality;
 import com.example.franonwheels.model.domain.User;
 import com.example.franonwheels.model.dtos.UserDTO;
 import com.example.franonwheels.repository.BookingsRepository;
 import com.example.franonwheels.repository.ClassesRepository;
 import com.example.franonwheels.repository.RoleRepository;
-import com.example.franonwheels.repository.SpecialityRepository;
 import com.example.franonwheels.repository.UserRepository;
 import com.example.franonwheels.service.UserService;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -24,7 +22,6 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final SpecialityRepository specialityRepository;
     private final RoleRepository roleRepository;
     private final BookingsRepository bookingsRepository;
     private final ClassesRepository classesRepository;
@@ -43,16 +40,6 @@ public class UserServiceImpl implements UserService {
                 role = roleRepository.save(role);
             }
             user.setRole(role); // Set the entity to user
-        }
-
-        // Check and save associated speciality entity
-        if (user.getSpeciality() != null) {
-            Speciality speciality = user.getSpeciality();
-            if (speciality.getId() == null) {
-                // Speciality entity is not saved yet, save it first
-                speciality = specialityRepository.save(speciality);
-            }
-            user.setSpeciality(speciality); // Set the entity to user
         }
 
         // Convert User entity to UserDTO and return
@@ -97,10 +84,6 @@ public class UserServiceImpl implements UserService {
             if (userDTO.getRole() != null) {
                 user.setRole(roleRepository.findById(userDTO.getRole().getId())
                         .orElseThrow(() -> new NoSuchElementException("Role not found")));
-            }
-            if (userDTO.getSpeciality() != null) {
-                user.setSpeciality(specialityRepository.findById(userDTO.getSpeciality().getId())
-                        .orElseThrow(() -> new NoSuchElementException("Speciality not found")));
             }
 
             // Save the updated user entity
@@ -186,4 +169,13 @@ public class UserServiceImpl implements UserService {
                 .map(UserMapper::userConvertToDTO)
                 .collect(Collectors.toList());
     }
+
+    public Optional<UserDTO> loginUser(String email, String password) {
+        Optional<User> user = userRepository.findByEmail(email);
+        if (user.isPresent() && password.equals(user.get().getPassword())) {
+            return Optional.of(UserMapper.userConvertToDTO(user.get()));
+        }
+        return Optional.empty();
+    }
+
 }

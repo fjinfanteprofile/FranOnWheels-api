@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
@@ -16,8 +17,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     // Finds users by their role name
     List<User> findByRoleNameIgnoreCaseContaining(@Param("roleName") String roleName);
 
-    // Finds users by their speciality name
-    List<User> findUsersBySpecialityName(@Param("specialityName") String specialityName);
 
     // Custom query to find users with bookings on a specific date
     @Query("SELECT DISTINCT u FROM User u INNER JOIN u.bookings b WHERE b.classes.date = :bookingDate")
@@ -39,4 +38,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByRoleId(Long id);
 
     List<User> findByActive(Integer active);
+
+    User findByUsernameOrEmail(String usernameOrEmail, String usernameOrEmail1);
+
+    Optional<User> findByEmail(String email);
 }
