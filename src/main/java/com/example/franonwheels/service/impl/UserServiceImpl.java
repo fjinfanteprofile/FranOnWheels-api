@@ -60,10 +60,6 @@ public class UserServiceImpl implements UserService {
     }
 
     public Optional<UserDTO> updateUser(UserDTO userDTO, Long id) {
-        // Check if the provided UserDTO has a valid ID
-        if (userDTO.getId() == null) {
-            throw new IllegalArgumentException("User ID is required for update");
-        }
 
         // Retrieve the user entity from the repository based on the provided ID
         Optional<User> optionalUser = userRepository.findById(id);
@@ -80,7 +76,7 @@ public class UserServiceImpl implements UserService {
             user.setEmail(userDTO.getEmail());
             user.setPassword(userDTO.getPassword());
             user.setAge(userDTO.getAge());
-            // Update role and speciality if needed
+            user.setUsername(userDTO.getUsername());
             if (userDTO.getRole() != null) {
                 user.setRole(roleRepository.findById(userDTO.getRole().getId())
                         .orElseThrow(() -> new NoSuchElementException("Role not found")));
