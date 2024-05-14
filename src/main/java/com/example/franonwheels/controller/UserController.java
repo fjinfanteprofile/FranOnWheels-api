@@ -54,6 +54,12 @@ public class UserController {
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 
+    @PutMapping("profile/{id}")
+    public ResponseEntity<Optional<UserDTO>> updateUserProfile(@RequestBody UserDTO userDTO, @PathVariable Long id) {
+        Optional<UserDTO> updatedUser = userServiceImpl.updateUserProfile(userDTO, id);
+        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+    }
+
     @GetMapping("/admins")
     public ResponseEntity<List<UserDTO>> getAdminUsers() {
         List<UserDTO> adminUsers = userServiceImpl.getAdminUsers();

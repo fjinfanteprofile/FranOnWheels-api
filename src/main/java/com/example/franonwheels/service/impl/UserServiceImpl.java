@@ -94,6 +94,34 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    public Optional<UserDTO> updateUserProfile(UserDTO userDTO, Long id) {
+
+        // Retrieve the user entity from the repository based on the provided ID
+        Optional<User> optionalUser = userRepository.findById(id);
+
+        // Check if the user exists
+        if (optionalUser.isPresent()) {
+            // Map the updated fields from the UserDTO to the user entity
+            User user = optionalUser.get();
+            user.setName(userDTO.getName());
+            user.setLastName(userDTO.getLastName());
+            user.setDni(userDTO.getDni());
+            user.setPhoneNumber(userDTO.getPhoneNumber());
+            user.setAddress(userDTO.getAddress());
+            user.setEmail(userDTO.getEmail());
+
+            // Save the updated user entity
+            User updatedUser = userRepository.save(user);
+
+            // Convert the updated user entity to UserDTO
+            UserDTO updatedUserDTO = UserMapper.userConvertToDTO(updatedUser);
+            return Optional.of(updatedUserDTO);
+        } else {
+            // User not found
+            return Optional.empty();
+        }
+    }
+
 
 
     public List<UserDTO> getAdminUsers() {
