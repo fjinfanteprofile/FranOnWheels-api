@@ -55,8 +55,8 @@ public class UserController {
     }
 
     @PutMapping("profile/{id}")
-    public ResponseEntity<Optional<UserDTO>> updateUserProfile(@RequestBody UserDTO userDTO, @PathVariable Long id) {
-        Optional<UserDTO> updatedUser = userServiceImpl.updateUserProfile(userDTO, id);
+    public ResponseEntity<UserDTO> updateUserProfile(@RequestBody UserDTO userDTO, @PathVariable Long id) {
+        UserDTO updatedUser = userServiceImpl.updateUserProfile(userDTO, id);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 

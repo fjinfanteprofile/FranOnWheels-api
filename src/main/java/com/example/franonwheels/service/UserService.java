@@ -38,5 +38,5 @@ public interface UserService {
 
     public Optional<UserDTO> loginUser(String email, String password);
 
-    public Optional<UserDTO> updateUserProfile(UserDTO userDTO, Long id);
+    public UserDTO updateUserProfile(UserDTO userDTO, Long id);
 }

@@ -94,7 +94,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public Optional<UserDTO> updateUserProfile(UserDTO userDTO, Long id) {
+    public UserDTO updateUserProfile(UserDTO userDTO, Long id) {
 
         // Retrieve the user entity from the repository based on the provided ID
         Optional<User> optionalUser = userRepository.findById(id);
@@ -115,10 +115,10 @@ public class UserServiceImpl implements UserService {
 
             // Convert the updated user entity to UserDTO
             UserDTO updatedUserDTO = UserMapper.userConvertToDTO(updatedUser);
-            return Optional.of(updatedUserDTO);
+            return updatedUserDTO;
         } else {
             // User not found
-            return Optional.empty();
+            return null;
         }
     }
 
