@@ -36,5 +36,7 @@ public interface UserService {
 
     public List<UserDTO> getInactiveUsers();
 
-    Optional<UserDTO> loginUser(String email, String password);
+    public Optional<UserDTO> loginUser(String email, String password);
+
+    public UserDTO updateUserProfile(UserDTO userDTO, Long id);
 }

@@ -84,6 +84,8 @@ public class ClassesServiceImpl implements ClassesService {
                 .vehicle(Vehicle.builder().id(classesDTO.getVehicleId()).build())
                 .timeEnd(classesDTO.getTimeEnd())
                 .timeStart(classesDTO.getTimeStart())
+                .active(classesDTO.getActive())
+                .user(User.builder().id(classesDTO.getUserId()).build())
                 .build();
 
         // Save the updated entity

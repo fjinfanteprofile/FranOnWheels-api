@@ -96,6 +96,10 @@ public class VehicleServiceImpl implements VehicleService {
             existingVehicle.setLicensePlate(vehicleDTO.getLicensePlate());
             existingVehicle.setGearbox(vehicleDTO.getGearbox());
             existingVehicle.setDisplacementCc(vehicleDTO.getDisplacementCc());
+            if (vehicleDTO.getType() != null) {
+                existingVehicle.setType(vehicleTypeRepository.findById(vehicleDTO.getType().getId())
+                        .orElseThrow(() -> new NoSuchElementException("Type not found")));
+            }
 
             // Save the updated entity
             existingVehicle = vehicleRepository.save(existingVehicle);

@@ -60,10 +60,6 @@ public class UserServiceImpl implements UserService {
     }
 
     public Optional<UserDTO> updateUser(UserDTO userDTO, Long id) {
-        // Check if the provided UserDTO has a valid ID
-        if (userDTO.getId() == null) {
-            throw new IllegalArgumentException("User ID is required for update");
-        }
 
         // Retrieve the user entity from the repository based on the provided ID
         Optional<User> optionalUser = userRepository.findById(id);
@@ -80,7 +76,7 @@ public class UserServiceImpl implements UserService {
             user.setEmail(userDTO.getEmail());
             user.setPassword(userDTO.getPassword());
             user.setAge(userDTO.getAge());
-            // Update role and speciality if needed
+            user.setUsername(userDTO.getUsername());
             if (userDTO.getRole() != null) {
                 user.setRole(roleRepository.findById(userDTO.getRole().getId())
                         .orElseThrow(() -> new NoSuchElementException("Role not found")));
@@ -95,6 +91,34 @@ public class UserServiceImpl implements UserService {
         } else {
             // User not found
             return Optional.empty();
+        }
+    }
+
+    public UserDTO updateUserProfile(UserDTO userDTO, Long id) {
+
+        // Retrieve the user entity from the repository based on the provided ID
+        Optional<User> optionalUser = userRepository.findById(id);
+
+        // Check if the user exists
+        if (optionalUser.isPresent()) {
+            // Map the updated fields from the UserDTO to the user entity
+            User user = optionalUser.get();
+            user.setName(userDTO.getName());
+            user.setLastName(userDTO.getLastName());
+            user.setDni(userDTO.getDni());
+            user.setPhoneNumber(userDTO.getPhoneNumber());
+            user.setAddress(userDTO.getAddress());
+            user.setEmail(userDTO.getEmail());
+
+            // Save the updated user entity
+            User updatedUser = userRepository.save(user);
+
+            // Convert the updated user entity to UserDTO
+            UserDTO updatedUserDTO = UserMapper.userConvertToDTO(updatedUser);
+            return updatedUserDTO;
+        } else {
+            // User not found
+            return null;
         }
     }
 

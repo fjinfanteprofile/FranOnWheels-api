@@ -1,6 +1,7 @@
 package com.example.franonwheels.Util;
 
 import com.example.franonwheels.model.domain.Classes;
+import com.example.franonwheels.model.domain.User;
 import com.example.franonwheels.model.domain.Vehicle;
 import com.example.franonwheels.model.dtos.ClassesDTO;
 
@@ -24,6 +25,7 @@ public class ClassesMapper {
                 .userId(userId)
                 .dayOfWeek(classes.getDate().getDayOfWeek().toString())
                 .date(classes.getDate())
+                .userId(classes.getUser().getId())
                 .build();
     }
 
@@ -41,6 +43,7 @@ public class ClassesMapper {
                 .active(classesDTO.getActive())
                 .dayOfWeek(classesDTO.getDate().getDayOfWeek().toString())
                 .date(classesDTO.getDate())
+                .user(User.builder().id(classesDTO.getUserId()).build())
                 .build();
 
     }
