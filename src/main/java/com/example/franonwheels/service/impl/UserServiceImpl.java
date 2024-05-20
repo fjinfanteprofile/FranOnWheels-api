@@ -32,6 +32,15 @@ public class UserServiceImpl implements UserService {
         // Convert UserDTO to User entity
         User user = UserMapper.userConvertToEntity(userDTO);
 
+        // Check for existing users with the same email, DNI, or username
+        boolean emailExists = userRepository.existsByEmail(user.getEmail());
+        boolean dniExists = userRepository.existsByDni(user.getDni());
+        boolean usernameExists = userRepository.existsByUsername(user.getUsername());
+
+        if (emailExists || dniExists || usernameExists) {
+            throw new IllegalArgumentException("User with the same credentials already exists, sure you don't have an account?");
+        }
+
         // Check and save associated role entity
         if (user.getRole() != null) {
             Role role = user.getRole();
