@@ -1,5 +1,6 @@
 package com.example.franonwheels.service;
 
+import com.example.franonwheels.Util.CustomException;
 import com.example.franonwheels.Util.UserMapper;
 import com.example.franonwheels.model.domain.User;
 import com.example.franonwheels.model.dtos.UserDTO;
@@ -10,7 +11,7 @@ import java.util.stream.Collectors;
 
 public interface UserService {
 
-    UserDTO createUser(UserDTO user);
+    UserDTO createUser(UserDTO user) throws CustomException;
 
     List<UserDTO> getAllUsers();
 
