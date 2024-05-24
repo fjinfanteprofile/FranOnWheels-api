@@ -1,5 +1,6 @@
 package com.example.franonwheels.controller;
 
+import com.example.franonwheels.Util.CustomException;
 import com.example.franonwheels.model.dtos.UserDTO;
 import com.example.franonwheels.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,7 @@ public class UserController {
     private final UserServiceImpl userServiceImpl;
 
     @PostMapping
-    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) throws CustomException {
         UserDTO createdUser = userServiceImpl.createUser(userDTO);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }

@@ -1,6 +1,5 @@
 package com.example.franonwheels.service.impl;
 
-import com.example.franonwheels.Util.ErrorMessages;
 import com.example.franonwheels.Util.UserMapper;
 import com.example.franonwheels.model.domain.Role;
 import com.example.franonwheels.model.domain.User;
@@ -32,16 +31,6 @@ public class UserServiceImpl implements UserService {
     public UserDTO createUser(UserDTO userDTO) {
         // Convert UserDTO to User entity
         User user = UserMapper.userConvertToEntity(userDTO);
-
-        // Check for existing users with the same email, DNI, or username
-        boolean emailExists = userRepository.existsByEmail(user.getEmail());
-        boolean dniExists = userRepository.existsByDni(user.getDni());
-        boolean usernameExists = userRepository.existsByUsername(user.getUsername());
-
-        if (emailExists || dniExists || usernameExists) {
-            throw new IllegalArgumentException(ErrorMessages.USER_CREDENTIALS_EXISTS);
-
-        }
 
         // Check and save associated role entity
         if (user.getRole() != null) {
