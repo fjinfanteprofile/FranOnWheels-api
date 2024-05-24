@@ -1,5 +1,6 @@
 package com.example.franonwheels.service.impl;
 
+import com.example.franonwheels.Util.ErrorMessages;
 import com.example.franonwheels.Util.UserMapper;
 import com.example.franonwheels.model.domain.Role;
 import com.example.franonwheels.model.domain.User;
@@ -38,7 +39,8 @@ public class UserServiceImpl implements UserService {
         boolean usernameExists = userRepository.existsByUsername(user.getUsername());
 
         if (emailExists || dniExists || usernameExists) {
-            throw new IllegalArgumentException("User with the same credentials already exists, sure you don't have an account?");
+            throw new IllegalArgumentException(ErrorMessages.USER_CREDENTIALS_EXISTS);
+
         }
 
         // Check and save associated role entity
